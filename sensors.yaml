@@ -1,7 +1,7 @@
 mqtt:
   broker: "192.168.1.10"
   username: ha
-  password: CaEL6r9vPk4kNrDDHF2e
+  password: [YOUR PASSWORD HERE]
   interval_seconds: 30
   top_dir_name: Garage
 Sensors:
