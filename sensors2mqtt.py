@@ -43,10 +43,9 @@ class sensors2mqtt():
 
   def __init__(self, config):
     if config is None:
-      self.config = "sensors.yaml"
+      self.config = "sensors_settings.yaml"
     else:
       self.config = config
-    print (f'config 2 = {config}')
 
   def loadConfig(self, path):
     with open(path, 'r') as ymlfile:
@@ -64,13 +63,8 @@ class sensors2mqtt():
   def run (self):
 
     logFormatter = '%(asctime)s - %(levelname)s - %(message)s'
-    logging.basicConfig(format=logFormatter, level=logging.ERROR)
+    logging.basicConfig(format=logFormatter, level=logging.ERROR)  # change this to  DEBUG, TEST, WARNING or ERROR to see more or less info
     logger = logging.getLogger(__name__)
-  #  logger.debug("debug")
-  #  logger.info("test")
-  #  logger.warning("warning")
-  #  logger.error("error")
-  #  logger.critical("critical")
   
     print("============================")
     print(f"\nStart Sensors to MQTT V{__version__}             {__date__} {__author__}")
@@ -88,7 +82,6 @@ class sensors2mqtt():
 
     # load only the sensors needed
     for aSensorClass in config_sensors:
-      #print(f"{aSensorClass}")
       #https://realpython.com/python-import/
       module = importlib.import_module(f"sensors.{aSensorClass}")
       aClass = getattr(module, f"{aSensorClass}")
@@ -100,15 +93,12 @@ class sensors2mqtt():
     print("----------------------------------------------------------------------")
     for x in mySensorList:
       x.printInfo()
-      #print(f" -> {x.printInfo()} \t configured: {x.is_configured()}")  
     print("----------------------------------------------------------------------\n\n")
 
     logger.debug("\nStarting main loop...")
     while True:       
       try:
-        #      send_mqtt_temperature_values(client, config_yaml['sensors-temperature'])
-  
-      
+
       
         if ((time.time() %100.0 ) < 2):
             logger.debug(f"100 seconds event => write to file if changed {time.time()}")
@@ -126,10 +116,6 @@ class sensors2mqtt():
             x.send_value_over_mqtt(mqtt_top_dir_name)
           except Exception as e:
             logging.error("\n\n\n" + traceback.format_exc() + "\n" )  
-
-     
-            
-        #send_mqtt_temperature_values(client, config_yaml['sensors-temperature'])
   
         time.sleep(10.0 - ((time.time()) % 10.0))
       except KeyboardInterrupt:
@@ -142,18 +128,7 @@ class sensors2mqtt():
 
 
 parser = argparse.ArgumentParser()
-parser.add_argument('-c', dest='config',default="sensors.yaml", help='path to your config file i.e. sensors.yaml (= default value)')
+parser.add_argument('-c', dest='config',default="sensors_settings.yaml", help='path to your config file i.e. sensors_settings.yaml (= default value)')
 args = parser.parse_args()
-print (f'config 1 = {args.config}')
 sens2mqtt = sensors2mqtt(args.config)
 sens2mqtt.run()
-
-
-
-
-#@click.command()
-#"@click.option('--config', '-c', help='path to your config file i.e. sensors.yml (= default value)')
-#def main(config):
-#  print ('config 1 = {config}')
-#  sens2mqtt = Sensors_to_MQTT(config)
-#  sens2mqtt.run()
