@@ -25,7 +25,7 @@ or start with argument: -c option:
 
 
 
-## use with home-assistant
+## Use with home-assistant
 Update your sensors section in configuration.yml with the new mqtt topics, for example:
 ```
 - platform: mqtt
@@ -41,23 +41,23 @@ Update your sensors section in configuration.yml with the new mqtt topics, for e
 ## Setup
 
 Configure your rapsberry pi where the sensors are attachted:
-=> download the latest version of 'Raspberry Pi OS (32-bit) Lite' here: https://www.raspberrypi.org/downloads/raspberry-pi-os/
-=> enable SSH by adding a file named 'SSH' into the boot location
-=> if 1-wire is required (for DS18B20)
-   enable one-wire in config.txt (on your SD-Card) => with the correct pin number
-   dtoverlay=w1-gpio,gpiopin=22
-=> If I2C is needed
-   enable I2C in config.txt (on your SD-Card)
-   dtparam=i2c_arm=on
+- download the latest version of 'Raspberry Pi OS (32-bit) Lite' here: https://www.raspberrypi.org/downloads/raspberry-pi-os/
+- enable SSH by adding a file named 'SSH' into the boot location
+- if 1-wire is required (for DS18B20)
+  - enable one-wire in config.txt (on your SD-Card) => with the correct pin number
+  - ```dtoverlay=w1-gpio,gpiopin=22```
+- If I2C is needed:
+  - enable I2C in config.txt (on your SD-Card)
+  - ```dtparam=i2c_arm=on```
 
    
-=> Start the Raspberry Pi with the prepared SD-Card
-=> connect over SSH | login
-    username: pi
-    password: raspberry
-    change your password with: 'passwd'
+- Start the Raspberry Pi with the prepared SD-Card
+- connect over SSH | login
+   - username: pi
+   - password: raspberry
+   - change your password with: 'passwd'
 
-Run: ./single_file_setup    or execute the commands below
+Run: ```./single_file_setup```    or execute the commands below
 
 ```bash
 => sudo apt update
@@ -77,7 +77,7 @@ Run: ./single_file_setup    or execute the commands below
 ```
 
 Hardware setup:
-![screenshot](docs/images/hw.jpg?raw=true)
+![screenshot](docs/images/hw.png?raw=true)
 
 
 Special thanks to https://github.com/engonzal/DS18B20-mqtt
