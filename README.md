@@ -4,7 +4,11 @@ Universal Sensor data transporter over MQTT.  Sensor like water flow sensor (=pu
 Supported sensors at the moment:
 - Maximintegrated_DS18S20
 - Generic_PulseCounter
-- TexasInstruments_INA219 (under development)
+
+Under development:
+- TexasInstruments_INA219 
+
+
 
 # How to add more sensors? 
 - copy and rename an existing sensor
@@ -57,7 +61,8 @@ Configure your rapsberry pi where the sensors are attachted:
    - password: raspberry
    - change your password with: 'passwd'
 
-Run: ```./single_file_setup```    or execute the commands below
+Download & Run: ```./single_file_setup```    
+or execute the commands manually:
 
 ```bash
 => sudo apt update
