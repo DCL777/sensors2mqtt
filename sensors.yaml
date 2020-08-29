@@ -1,0 +1,27 @@
+mqtt:
+  broker: "192.168.1.10"
+  username: ha
+  password: CaEL6r9vPk4kNrDDHF2e
+  interval_seconds: 30
+  top_dir_name: Garage
+Sensors:
+  Maximintegrated_DS18S20:
+  - path: /sys/bus/w1/devices/28-011939f0e24a/w1_slave
+    friendly: Cistern
+  - path: /sys/bus/w1/devices/28-01193a05774d/w1_slave
+    friendly: Outside
+  Generic_PulseCounter:
+  - pin_number: 23
+    friendly: Garden
+  - pin_number: 24
+    friendly: Home
+#  TexasInstruments_INA219:
+#  - address: 0x40
+#    friendly: Citern
+#    channel: 1
+#    path: "/dev/i2c-1"
+#    shunt_ohms: 0.1 
+#    max_expected_amps: 0.020 
+
+
+ 

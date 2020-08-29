@@ -1,0 +1,11 @@
+certifi
+click
+idna
+influxdb
+python-dateutil
+paho-mqtt
+six
+urllib3
+pyyaml
+smbus2
+pi-ina219
