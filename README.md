@@ -81,7 +81,7 @@ or execute the commands manually:
 => ./sensors2mqtt.py
 ```
 
-Hardware setup:
+# Hardware setup:
 ![screenshot](docs/images/hw.png?raw=true)
 
 some hardware comments:
@@ -89,6 +89,11 @@ some hardware comments:
 - my water flow puls counter works at 5VDC.  RPI needs 3V3 GPIO: so a resistor divider is used to lower the voltages
 - INA219: change the shunt resistor to 10 ohm to have a good measurement
 - Boost converter will convert the 5VDC to 12.5VDC needed for the 'Submersible Water Level Transducer Sensor'
+
+
+
+
+
 
 
 Special thanks to https://github.com/engonzal/DS18B20-mqtt
