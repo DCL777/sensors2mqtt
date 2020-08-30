@@ -7,8 +7,7 @@ Supported sensors at the moment:
 - TexasInstruments_INA219 
 
 
-
-# How to add more sensors? 
+## How to add more sensors? 
 - copy and rename an existing sensor
 - change the file name & the class name
     - [manufacturer]_[partnumber]
@@ -18,7 +17,7 @@ Supported sensors at the moment:
 - use the class name in 'sensors_settings.yaml' to activate the new module (dynamic loaded)
 
 
-## Config your sensors & MQTT broker info
+# Config your sensors & MQTT broker info
 Edit sensors.yml to add or remove sensors
 Only sensors define here will be loaded at runtime
 
@@ -26,22 +25,8 @@ or start with argument: -c option:
 ./sensors2mqtt.py -c my_sensor_data.yaml
 
 
-
-## Use with home-assistant
-Update your sensors section in configuration.yml with the new mqtt topics, for example:
-```
-- platform: mqtt
-  state_topic: "Garage/Outside/Temperature"
-  name: "Garage Temperature"
-  unit_of_measurement: "°C"
-- platform: mqtt
-  state_topic: "Garage/Cistern/Temperature "
-  name: "Cistern Temperature"
-  unit_of_measurement: "°C"
-```
-
-## Setup
-
+# Setup
+## on a Raspberry pi
 Configure your rapsberry pi where the sensors are attachted:
 - download the latest version of 'Raspberry Pi OS (32-bit) Lite' here: https://www.raspberrypi.org/downloads/raspberry-pi-os/
 - enable SSH by adding a file named 'SSH' into the boot location
@@ -77,6 +62,18 @@ or execute the commands manually:
 => cd sensors2mqtt
 => sudo pip3 install -r requirements.txt
 => ./sensors2mqtt.py
+```
+## Use with home-assistant
+Update your sensors section in configuration.yml with the new mqtt topics, for example:
+```
+- platform: mqtt
+  state_topic: "Garage/Outside/Temperature"
+  name: "Garage Temperature"
+  unit_of_measurement: "°C"
+- platform: mqtt
+  state_topic: "Garage/Cistern/Temperature "
+  name: "Cistern Temperature"
+  unit_of_measurement: "°C"
 ```
 
 # Hardware setup:
@@ -154,6 +151,6 @@ Starting main loop...
 
 
 
-Special thanks to 
-https://pypi.org/project/smbus2/
-https://github.com/engonzal/DS18B20-mqtt
+# Special thanks to 
+- https://pypi.org/project/smbus2/
+- https://github.com/engonzal/DS18B20-mqtt
