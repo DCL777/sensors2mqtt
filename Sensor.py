@@ -24,7 +24,12 @@ class Sensor:
     self.function = function
     self.protocol = protocol
     self.mqtt_client = mqtt_client
-    self.parameters = parameters.get(f"{self.manufacturer}_{self.sensorName}")
+
+    # replace spaces and dashes to underscore !!
+    sensorNameModified = self.sensorName.replace(' ', '_')
+    sensorNameModified = sensorNameModified.replace('-','_')
+
+    self.parameters = parameters.get(f"{self.manufacturer}_{sensorNameModified}")
     self.logger = logging.getLogger(__name__)
 
 

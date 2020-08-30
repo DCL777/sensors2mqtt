@@ -63,11 +63,11 @@ class sensors2mqtt():
   def run (self):
 
     logFormatter = '%(asctime)s - %(levelname)s - %(message)s'
-    logging.basicConfig(format=logFormatter, level=logging.ERROR)  # change this to  DEBUG, TEST, WARNING or ERROR to see more or less info
+    logging.basicConfig(format=logFormatter, level=logging.DEBUG)  # change this to  DEBUG, TEST, WARNING or ERROR to see more or less info
     logger = logging.getLogger(__name__)
   
     print("============================")
-    print(f"\nStart Sensors to MQTT V{__version__}             {__date__} {__author__}")
+    print(f"Start Sensors to MQTT V{__version__}             {__date__} {__author__}")
     print("============================")
   
     config_yaml = self.loadConfig(self.config)

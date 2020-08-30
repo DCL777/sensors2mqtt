@@ -43,15 +43,10 @@ class Maximintegrated_DS18S20(Sensor):
     return temp_c
 
   def send_value_over_mqtt(self,mqtt_top_dir_name): 
-    #found  = x.get_sensors_found()
-    #for sensor_number in range(found):
-      #print(f"Conv sensor {sensor_number}")  
-    #  sensor = self.parameters[sensor_number]
-
     for sensor in self.parameters:  
       sensor_value = self.read_temp_raw(sensor['path'])  # VALUE: -1000 = ERROR
-      sensor_name = sensor['friendly']
-      friendly_name = f"{mqtt_top_dir_name}/{sensor_name}/{self.function}" #.format(sensor_name,self.function)
+      mqtt_sub_dir = sensor['mqtt_sub_dir']
+      friendly_name = f"{mqtt_top_dir_name}/{mqtt_sub_dir}/{self.function}" #.format(mqtt_sub_dir,self.function)
       self.mqtt_client.publish(friendly_name, sensor_value)
       self.logger.info(f"    MQTT: {friendly_name}  {sensor_value}")    
   

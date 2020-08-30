@@ -4,8 +4,6 @@ Universal Sensor data transporter over MQTT.  Sensor like water flow sensor (=pu
 Supported sensors at the moment:
 - Maximintegrated_DS18S20
 - Generic_PulseCounter
-
-Under development:
 - TexasInstruments_INA219 
 
 
@@ -90,10 +88,72 @@ some hardware comments:
 - INA219: change the shunt resistor to 10 ohm to have a good measurement
 - Boost converter will convert the 5VDC to 12.5VDC needed for the 'Submersible Water Level Transducer Sensor'
 
+# Example cli output: if level=logging.DEBUG
+```
+pi@regenputten:~/sensors2mqtt $ ./sensors2mqtt.py -c sensors_test.yaml
+============================
+Start Sensors to MQTT V0.0.1             2020-08-15 Dries Claerbout
+============================
+Start MQTT: Broker: 192.168.1.10 Username: ha
+
+Sensors found
+----------------------------------------------------------------------
+ -> DS18S20      Maximintegrated         Temperature     1-Wire
+    -> Sensor 1:
+        -> path = /sys/bus/w1/devices/28-011939f0e24a/w1_slave
+        -> mqtt_sub_dir = cistern
+ -> PulseCounter         Generic         PulseCounter    GPIO
+    -> Sensor 1:
+        -> pin_number = 23
+        -> mqtt_sub_dir = garden
+        -> function = water-flow
+    -> Sensor 2:
+        -> pin_number = 24
+        -> mqtt_sub_dir = home
+        -> function = water-flow
+ -> INA219 4-20mA        TexasInstruments        Current         I2C
+    -> Sensor 1:
+        -> address = 64
+        -> mqtt_sub_dir = citern
+        -> channel = 1
+        -> calibration_low_mA = 3.96
+        -> calibration_high_mA = 18.5
+        -> full_range_value = 5000
+        -> unit = mm
+        -> mqtt_function_name = height
+----------------------------------------------------------------------
+
+
+2020-08-30 17:01:06,583 - DEBUG -
+Starting main loop...
+2020-08-30 17:01:06,585 - DEBUG - 10 seconds event 1598803266.5848727
+2020-08-30 17:01:07,446 - INFO -     MQTT: garage/cistern/Temperature  20.937
+2020-08-30 17:01:07,448 - INFO -     MQTT: garage/garden/water-flow/delta  0
+2020-08-30 17:01:07,450 - INFO -     MQTT: garage/garden/water-flow/total  89
+2020-08-30 17:01:07,453 - INFO -     MQTT: garage/home/water-flow/delta  0
+2020-08-30 17:01:07,454 - INFO -     MQTT: garage/home/water-flow/total  15
+2020-08-30 17:01:07,760 - INFO -     MQTT: garage/citern/height  19.567
+2020-08-30 17:01:07,764 - INFO -     MQTT: garage/citern/bus-voltage  12.517
+2020-08-30 17:01:10,002 - DEBUG - 10 seconds event 1598803270.0023887
+2020-08-30 17:01:10,886 - INFO -     MQTT: garage/cistern/Temperature  21.0
+2020-08-30 17:01:10,888 - INFO -     MQTT: garage/garden/water-flow/delta  0
+2020-08-30 17:01:10,890 - INFO -     MQTT: garage/garden/water-flow/total  89
+2020-08-30 17:01:10,891 - INFO -     MQTT: garage/home/water-flow/delta  0
+2020-08-30 17:01:10,893 - INFO -     MQTT: garage/home/water-flow/total  15
+2020-08-30 17:01:11,199 - INFO -     MQTT: garage/citern/height  19.567
+2020-08-30 17:01:11,202 - INFO -     MQTT: garage/citern/bus-voltage  12.517
+2020-08-30 17:01:20,009 - DEBUG - 10 seconds event 1598803280.0089643
+2020-08-30 17:01:20,886 - INFO -     MQTT: garage/cistern/Temperature  20.937
+2020-08-30 17:01:20,888 - INFO -     MQTT: garage/garden/water-flow/delta  0
+2020-08-30 17:01:20,890 - INFO -     MQTT: garage/garden/water-flow/total  89
+2020-08-30 17:01:20,892 - INFO -     MQTT: garage/home/water-flow/delta  0
+2020-08-30 17:01:20,893 - INFO -     MQTT: garage/home/water-flow/total  15
+2020-08-30 17:01:21,199 - INFO -     MQTT: garage/citern/height  19.567
+2020-08-30 17:01:21,202 - INFO -     MQTT: garage/citern/bus-voltage  12.517
+```
 
 
 
-
-
-
-Special thanks to https://github.com/engonzal/DS18B20-mqtt
+Special thanks to 
+https://pypi.org/project/smbus2/
+https://github.com/engonzal/DS18B20-mqtt

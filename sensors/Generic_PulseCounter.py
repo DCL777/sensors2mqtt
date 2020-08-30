@@ -30,7 +30,7 @@ from Sensor import Sensor
 
 class Generic_PulseCounter(Sensor):
   def __init__(self, mqtt_client, config):    
-    super().__init__("Generic", "PulseCounter", "Water-Flow","GPIO" ,mqtt_client, config)
+    super().__init__("Generic", "PulseCounter", "PulseCounter","GPIO" ,mqtt_client, config)
 
     self.count_flow_sensor = []
     self.count_flow_sensor_d1 = []
@@ -82,11 +82,12 @@ class Generic_PulseCounter(Sensor):
       delta = self.count_flow_sensor[id] - self.count_flow_sensor_d1[id]
       self.count_flow_sensor_d1[id] = self.count_flow_sensor[id]  # save last value
       
-      sensor_name = sensor['friendly']
-      friendly_name = f"{mqtt_top_dir_name}/{sensor_name}/{self.function}/delta" 
+      mqtt_sub_dir = sensor['mqtt_sub_dir']
+      function = sensor['function']
+      friendly_name = f"{mqtt_top_dir_name}/{mqtt_sub_dir}/{function}/delta" 
       self.mqtt_client.publish(friendly_name, delta)
       self.logger.info(f"    MQTT: {friendly_name}  {delta}")
-      friendly_name = f"{mqtt_top_dir_name}/{sensor_name}/{self.function}/total" 
+      friendly_name = f"{mqtt_top_dir_name}/{mqtt_sub_dir}/{function}/total" 
       self.mqtt_client.publish(friendly_name, self.count_flow_sensor[id])
       self.logger.info(f"    MQTT: {friendly_name}  {self.count_flow_sensor[id]}")  
       id = id+1                      

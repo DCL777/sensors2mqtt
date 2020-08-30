@@ -1,26 +1,30 @@
 mqtt:
-  broker: "192.168.1.10"
+  broker: "192.168.1.100"
   username: ha
   password: [YOUR PASSWORD HERE]
-  top_dir_name: Garage
+  top_dir_name: garage  # used as MQTT top directory
 Sensors:
   Maximintegrated_DS18S20:
   - path: /sys/bus/w1/devices/28-011939f0e24a/w1_slave
-    friendly: Cistern
+    mqtt_sub_dir: cistern
   - path: /sys/bus/w1/devices/28-01193a05774d/w1_slave
     friendly: Outside
   Generic_PulseCounter:
   - pin_number: 23
-    friendly: Garden
+    mqtt_sub_dir: garden
+    function: water-flow  
   - pin_number: 24
-    friendly: Home
-#  TexasInstruments_INA219:
-#  - address: 0x40
-#    friendly: Citern
-#    channel: 1
-#    path: "/dev/i2c-1"
-#    shunt_ohms: 0.1 
-#    max_expected_amps: 0.020 
+    mqtt_sub_dir: home
+    function: water-flow
+  TexasInstruments_INA219_4_20mA:  # check shunt resister = 10 ohm
+  - address: 0x40
+    mqtt_sub_dir: citern
+    channel: 1   # path: "/dev/i2c-1"    
+    calibration_low_mA:  3.960   #  4mA
+    calibration_high_mA: 18.5    # 20mA
+    full_range_value:  5000      # 5 mm = 20mA         0m = 4mA
+    unit: mm                     # meter  
+    mqtt_function_name: height   # or Current
 
 
  
