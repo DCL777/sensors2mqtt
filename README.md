@@ -1,10 +1,10 @@
 # sensors2mqtt
-Universal Sensor data transporter over MQTT.  Sensor like water flow sensor (=pulse-counter), DS18S20 , INA219,...  
+Universal Sensor data transporter over MQTT.  Sensor like water flow sensor (=pulse-counter), DS18B20 , INA219,...  
 
 Supported sensors at the moment:
-- Maximintegrated_DS18S20
+- Maximintegrated_DS18B20
 - Generic_PulseCounter
-- TexasInstruments_INA219 
+- TexasInstruments_INA219_4_20mA 
 
 
 ## How to add more sensors? 
@@ -80,7 +80,7 @@ Update your sensors section in configuration.yml with the new mqtt topics, for e
 ![screenshot](docs/images/hw.png?raw=true)
 
 some hardware comments:
-- DS18S20: needs a pull up resistor of 4k7
+- DS18B20: needs a pull up resistor of 4k7
 - my water flow puls counter works at 5VDC.  RPI needs 3V3 GPIO: so a resistor divider is used to lower the voltages
 - INA219: change the shunt resistor to 10 ohm to have a good measurement
 - Boost converter will convert the 5VDC to 12.5VDC needed for the 'Submersible Water Level Transducer Sensor'
@@ -95,7 +95,7 @@ Start MQTT: Broker: 192.168.1.10 Username: ha
 
 Sensors found
 ----------------------------------------------------------------------
- -> DS18S20      Maximintegrated         Temperature     1-Wire
+ -> DS18B20      Maximintegrated         Temperature     1-Wire
     -> Sensor 1:
         -> path = /sys/bus/w1/devices/28-011939f0e24a/w1_slave
         -> mqtt_sub_dir = cistern

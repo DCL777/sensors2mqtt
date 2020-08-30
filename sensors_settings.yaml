@@ -4,7 +4,7 @@ mqtt:
   password: [YOUR PASSWORD HERE]
   top_dir_name: garage  # used as MQTT top directory
 Sensors:
-  Maximintegrated_DS18S20:
+  Maximintegrated_DS18B20:
   - path: /sys/bus/w1/devices/28-011939f0e24a/w1_slave
     mqtt_sub_dir: cistern
   - path: /sys/bus/w1/devices/28-01193a05774d/w1_slave
