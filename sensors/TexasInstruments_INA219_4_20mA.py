@@ -47,14 +47,16 @@ class my_ti_ina219_sensor():
 
   def __init__(self, mqtt_client, aSensor): 
     
-    self.mqtt_sub_dir = aSensor['mqtt_sub_dir']
-    self.i2c_channel = aSensor['channel']  # "/dev/i2c-1"  = 1
-    self.i2c_address  = aSensor['address']      
+    self.mqtt_sub_dir         = aSensor['mqtt_sub_dir']
+    self.i2c_channel          = aSensor['channel']  # "/dev/i2c-1"  = 1
+    self.i2c_address          = aSensor['address']      
     self.calibration_low_mA   = aSensor['calibration_low_mA']
     self.calibration_high_mA  = aSensor['calibration_high_mA']
     self.full_range_value     = aSensor['full_range_value']
     self.unit                 = aSensor['unit']
     self.mqtt_function_name   = aSensor['mqtt_function_name']
+    self.shunt                = aSensor['shunt_resistor']
+
 
     self.mqtt_client = mqtt_client
     self.logger = logging.getLogger(__name__)
@@ -86,13 +88,13 @@ class my_ti_ina219_sensor():
     return val_mV
 
   def convert_mV_to_mA(self, val_mV):
-    val_mA = val_mV/10 # ohm
+    val_mA = val_mV  / self.shunt    # +/- 10 ohm
     return val_mA
 
   def convert_mA_to_unit(self, val_mA):
     cal_val = val_mA - self.calibration_low_mA
     scale = self.full_range_value / (self.calibration_high_mA - self.calibration_low_mA)
-    cal_val_scaled = round(cal_val * scale  /10 ,3)
+    cal_val_scaled = round(cal_val * scale  ,1)
     return cal_val_scaled
 
   def read_i2c_value(self, register):
@@ -114,7 +116,7 @@ class my_ti_ina219_sensor():
         val_mV = self.convert_voltage_data_to_unit(data)        
         #val_mV = val / 2000 # /8 * 4mV
         printData = printData + " " + str(val) + "\t" + str(val_mV) + "V" 
-      print(printData)
+      self.logger.info(printData + "   <--- use this info to calibrate")
 
   def read_i2c_all_registers(self):     # the bus must be OPEN!!
     for i in range(0,6):      
@@ -132,7 +134,7 @@ class my_ti_ina219_sensor():
     # ------------------------------------------------------------------------------
     register = REG_SHUNT_VOLTAGE
     read = self.read_i2c_value(register)
-    #self.print_value(register,read) 
+    self.print_value(register,read) 
     sensor_value = self.convert_current_data_to_unit(read)
     mqtt_dir = f"{mqtt_top_dir_name}/{self.mqtt_sub_dir}/{self.mqtt_function_name}" 
     self.mqtt_client.publish(mqtt_dir, sensor_value)
