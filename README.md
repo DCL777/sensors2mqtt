@@ -2,10 +2,15 @@
 Universal Sensor data transporter over MQTT.  Sensor like water flow sensor (=pulse-counter), DS18B20 , INA219,...  
 
 Supported sensors at the moment:
-- Maximintegrated_DS18B20
+- Maximintegrated_DS18B20 temperature sensor
 - Generic_PulseCounter
+  - as a water-flow sensor
+  - fully configurable for your application / sensor
 - TexasInstruments_INA219_4_20mA 
-
+  - as citern water height sensor. With a 'Submersible Water Level Transducer Sensor' 0-5m H2O  
+    - measures: 0-5000mm
+    - 1 step = 0.32 mm
+  - fully configurable for your application / sensor
 
 ## How to add more sensors? 
 - copy and rename an existing sensor
@@ -18,11 +23,9 @@ Supported sensors at the moment:
 
 
 # Config your sensors & MQTT broker info
-Edit sensors.yml to add or remove sensors
-Only sensors define here will be loaded at runtime
-
-or start with argument: -c option:
-./sensors2mqtt.py -c my_sensor_data.yaml
+- copy sensors_settings.yaml to the same directory with a differend name: example: ```my_sensor_data.yaml```
+- Add or remove sensors in the new file.  Only sensors define here will be loaded at runtime
+- Start with argument: -c option: ```./sensors2mqtt.py -c my_sensor_data.yaml```
 
 
 # Setup
