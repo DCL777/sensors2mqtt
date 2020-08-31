@@ -25,9 +25,9 @@ from smbus2 import SMBus, i2c_msg  # https://pypi.org/project/smbus2/
 # show devices: i2cdetect -y 1
 # source:  https://www.ti.com/lit/ds/symlink/ina219.pdf
 
-# full scale = 320mV => / 12bit (4096) = 0.079125mV / 10 ohm = 0.0079125mA
 # 10 ohm x 20mA = 200mV    
 # 10 ohm x  4mA =  40mV
+# 10 ohm x 32mA = 320mV = full-scale  / 12bit (4096) = 0.079125mV / 10 ohm = 0.0079125mA
 
 
 from Sensor import Sensor
@@ -56,7 +56,6 @@ class my_ti_ina219_sensor():
     self.unit                 = aSensor['unit']
     self.mqtt_function_name   = aSensor['mqtt_function_name']
     self.shunt                = aSensor['shunt_resistor']
-
 
     self.mqtt_client = mqtt_client
     self.logger = logging.getLogger(__name__)
@@ -156,8 +155,6 @@ class my_ti_ina219_sensor():
   
   def on_exit(self):
     pass
-
-
 
 class TexasInstruments_INA219_4_20mA(Sensor):
   

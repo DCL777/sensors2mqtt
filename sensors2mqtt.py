@@ -41,11 +41,12 @@ __name__ = "sensor2MQTT"
 
 class sensors2mqtt():
 
-  def __init__(self, config):
+  def __init__(self, config, logging):
     if config is None:
       self.config = "sensors_settings.yaml"
     else:
       self.config = config
+    self.logging = logging
 
   def loadConfig(self, path):
     with open(path, 'r') as ymlfile:
@@ -62,9 +63,16 @@ class sensors2mqtt():
 
   def run (self):
 
+
     logFormatter = '%(asctime)s - %(levelname)s - %(message)s'
-    logging.basicConfig(format=logFormatter, level=logging.DEBUG)  # change this to  DEBUG, TEST, WARNING or ERROR to see more or less info
+    if self.logging is None:      
+      logging.basicConfig(format=logFormatter, level=logging.ERROR)  # change this to  DEBUG, TEST, WARNING or ERROR to see more or less info
+    elif self.logging == 'debug':
+      logging.basicConfig(format=logFormatter, level=logging.DEBUG)  # change this to  DEBUG, TEST, WARNING or ERROR to see more or less info
+    else:
+      logging.basicConfig(format=logFormatter, level=logging.ERROR)  # change this to  DEBUG, TEST, WARNING or ERROR to see more or less info
     logger = logging.getLogger(__name__)
+
   
     print("============================")
     print(f"Start Sensors to MQTT V{__version__}             {__date__} {__author__}")
@@ -129,6 +137,7 @@ class sensors2mqtt():
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-c', dest='config',default="sensors_settings.yaml", help='path to your config file i.e. sensors_settings.yaml (= default value)')
+parser.add_argument('-l', dest='logging',default="error", help='debug or error')
 args = parser.parse_args()
-sens2mqtt = sensors2mqtt(args.config)
+sens2mqtt = sensors2mqtt(args.config, args.logging)
 sens2mqtt.run()

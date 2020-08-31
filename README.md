@@ -26,6 +26,7 @@ Supported sensors at the moment:
 - copy sensors_settings.yaml to the same directory with a differend name: example: ```my_sensor_data.yaml```
 - Add or remove sensors in the new file.  Only sensors define here will be loaded at runtime
 - Start with argument: -c option: ```./sensors2mqtt.py -c my_sensor_data.yaml```
+- Start with argument: -l option: ```./sensors2mqtt.py -c my_sensor_data.yaml -l debug``` to get debug loggings
 
 
 # Setup
