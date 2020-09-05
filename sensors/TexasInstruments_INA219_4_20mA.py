@@ -25,9 +25,36 @@ from smbus2 import SMBus, i2c_msg  # https://pypi.org/project/smbus2/
 # show devices: i2cdetect -y 1
 # source:  https://www.ti.com/lit/ds/symlink/ina219.pdf
 
-# 10 ohm x 20mA = 200mV    
-# 10 ohm x  4mA =  40mV
-# 10 ohm x 32mA = 320mV = full-scale  / 12bit (4096) = 0.079125mV / 10 ohm = 0.0079125mA
+
+#  ------------------
+#  Resistor  = 10 ohm  full range 4-32 mA  => Sensors: 4-20mA fully supported
+#  ------------------
+#  Current I  Volts value  number height  power disipation
+#   4.0 mA	  40 mV	 512  	0	      0	     0.16 mW
+#  10.0 mA	100 mV	1280	  768	    1875	 1.00 mW
+#  12.8 mA	128 mV	1638.4	1126.4	2750	 1.64 mW
+#  20.0 mA	200 mV	2560	  2048	  5000	 4.00 mW
+#  32.0 mA	320 mV	4096	  3584	  8750	10.24 mW
+#  example: Water height sensor 4-20mA = 0-5000mm => 1 step value = 2.44mm, with oversampling /8 = 0.305mm
+
+#  ------------------
+#  Resistor  = 16 ohm  full range 4-20 mA  => Sensors: 4-20mA fully supported
+#  ------------------
+#  Current I  Volts value  number height  power disipation
+#  4.0 mA	   64 mV	819.2	 0	    0	      0.26 mW
+#  10.0 mA	160 mV	2048	 1228.8	1875	  1.60 mW
+#  12.8 mA	205 mV	2621	 1802.2	2750	  2.62 mW
+#  20.0 mA	320 mV	4096	 3276.8	5000	  6.40 mW
+#  example: Water height sensor 4-20mA = 0-5000mm => 1 step value = 1.53mm, with oversampling /8 = 0.191mm
+
+#  ------------------
+#  Resistor  = 25 ohm  full range 4-12.8 mA  => 50% off max. value supported of 4-20mA
+#  ------------------
+#  Current I  Volts value  number height  power disipation
+#   4.0 mA	100 mV	1280 	 0	    0	    0.40 mW
+#  10.0 mA	250 mV	3200	 1920	  1875	2.50 mW
+#  12.8 mA	320 mV	4096	 2816	  2750	4.10 mW
+#  example: Water height sensor 4-20mA = 0-5000mm => 1 step value = 0.98mm, with oversampling /8 = 0.122mm => max. height 2750mm
 
 
 from Sensor import Sensor

@@ -20,8 +20,8 @@ Sensors:
   - address: 0x40
     mqtt_sub_dir: citern
     mqtt_function_name: height   # or Current...
-    channel: 1                   # path: "/dev/i2c-1"    
-    shunt_resistor: 9.78         # 10 Ohm : measure it for the best results or buy a 0.1% resistor ; choose a value between 6 and 14 ohm for the best results.
+    channel: 1                   # path: "/dev/i2c-1"   => channel 1 
+    shunt_resistor: 9.78         # max. 16 Ohm for full range 4-20mA :   buy a 0.1% resistor or measure it for the best results; choose a value between 9 and 16 ohm for the best results.
     calibration_low_mA:  4.00    #  4mA
     calibration_high_mA: 20.0    # 20mA
     full_range_value:  5000      # 5 mm = 20mA         0m = 4mA

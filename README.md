@@ -9,7 +9,7 @@ Supported sensors at the moment:
 - TexasInstruments_INA219_4_20mA 
   - as citern water height sensor. With a 'Submersible Water Level Transducer Sensor' 0-5m H2O  
     - measures: 0-5000mm
-    - 1 step = 0.32 mm
+    - 1 step = 0.305 mm  (Rshunt = 10 ohm @ 12-Bit + oversampling )
   - fully configurable for your application / sensor
 
 ## How to add more sensors? 
