@@ -15,8 +15,8 @@ Supported sensors at the moment:
 ## How to add more sensors? 
 - copy and rename an existing sensor
 - change the file name & the class name
-    - [platform]_[manufacturer]_[partnumber]   
-    - or [platform]_Generic_[function]
+    - ```[platform]_[manufacturer]_[partnumber]```   
+    - or ```[platform]_Generic_[function]```
 - change the content for your function
 - The filename & class name must be exact (case sensitive) equal
 - use the class name in 'sensors_settings.yaml' to activate the new module (dynamic loaded)
