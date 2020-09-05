@@ -54,7 +54,7 @@ class sensors2mqtt():
     return config
 
   def initMQTT(self,config_mqtt):
-    print(f"Start MQTT: Broker: {config_mqtt['broker']} Username: {config_mqtt['username']} ") #Password: {config_mqtt['password']}")
+    print(f"Start MQTT: Broker: {config_mqtt['broker']} Username: {config_mqtt['username']} \n") #Password: {config_mqtt['password']}")
     client = mqtt.Client()
     client.username_pw_set(config_mqtt['username'], config_mqtt['password'])
     client.connect(config_mqtt['broker'])
@@ -88,10 +88,14 @@ class sensors2mqtt():
     mySensorList = []
     config_sensors = config_yaml['Sensors']
 
+    logger.debug(f"Loading modules:")
+    logger.debug(f"================")
     # load only the sensors needed
     for aSensorClass in config_sensors:
       #https://realpython.com/python-import/
-      module = importlib.import_module(f"sensors.{aSensorClass}")
+      class_to_load = f"sensors.{aSensorClass}.{aSensorClass}"
+      module = importlib.import_module(class_to_load)
+      logger.debug(f"    --> CLASS: {class_to_load}")
       aClass = getattr(module, f"{aSensorClass}")
       myClass = aClass(client,config_sensors)
       mySensorList.append(myClass)
@@ -103,7 +107,7 @@ class sensors2mqtt():
       x.printInfo()
     print("----------------------------------------------------------------------\n\n")
 
-    logger.debug("\nStarting main loop...")
+    print("\nStarting main loop...")
     while True:       
       try:
 

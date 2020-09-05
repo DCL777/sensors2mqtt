@@ -15,11 +15,16 @@ Supported sensors at the moment:
 ## How to add more sensors? 
 - copy and rename an existing sensor
 - change the file name & the class name
-    - [manufacturer]_[partnumber]
-    - or Generic_[function]
+    - [platform]_[manufacturer]_[partnumber]   
+    - or [platform]_Generic_[function]
 - change the content for your function
 - The filename & class name must be exact (case sensitive) equal
 - use the class name in 'sensors_settings.yaml' to activate the new module (dynamic loaded)
+- [platform]
+    - 'LINUX' - should work on all linux platforms
+    - 'RPI'   - should work on all Raspberry PI platforms
+    - 'ESP32' - should work on all ESP32 platforms
+    - ...
 
 
 # Config your sensors & MQTT broker info

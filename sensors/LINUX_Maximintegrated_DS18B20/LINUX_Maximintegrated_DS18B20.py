@@ -21,11 +21,11 @@ import logging
 from Sensor import Sensor
 
 
-class Maximintegrated_DS18B20(Sensor):
+class LINUX_Maximintegrated_DS18B20(Sensor):
   
 
   def __init__(self, mqtt_client, config):    
-    super().__init__("Maximintegrated", "DS18B20", "Temperature","1-Wire" ,mqtt_client, config)
+    super().__init__("LINUX","Maximintegrated", "DS18B20", "Temperature","1-Wire" ,mqtt_client, config)
     
   def read_temp_raw(self,path):
     try:

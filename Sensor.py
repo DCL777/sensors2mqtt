@@ -18,7 +18,8 @@
 import logging
 
 class Sensor:
-  def __init__(self, manufacturer, sensorName, function,protocol,mqtt_client, parameters):
+  def __init__(self, supported_system, manufacturer, sensorName, function,protocol,mqtt_client, parameters):
+    self.supported_system = supported_system
     self.manufacturer = manufacturer
     self.sensorName = sensorName
     self.function = function
@@ -29,12 +30,12 @@ class Sensor:
     sensorNameModified = self.sensorName.replace(' ', '_')
     sensorNameModified = sensorNameModified.replace('-','_')
 
-    self.parameters = parameters.get(f"{self.manufacturer}_{sensorNameModified}")
+    self.parameters = parameters.get(f"{self.supported_system}_{self.manufacturer}_{sensorNameModified}")
     self.logger = logging.getLogger(__name__)
 
 
   def printInfo(self):
-    print(f" -> {self.sensorName} \t {self.manufacturer} \t {self.function} \t {self.protocol}")
+    print(f" -> {self.sensorName} \t {self.manufacturer} \t {self.function} \t {self.protocol} \t {self.supported_system}")
     self.count = 0
     for a_sensor in self.parameters:
       self.count = self.count +1

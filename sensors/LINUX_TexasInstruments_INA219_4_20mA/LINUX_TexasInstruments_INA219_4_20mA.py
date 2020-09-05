@@ -183,11 +183,11 @@ class my_ti_ina219_sensor():
   def on_exit(self):
     pass
 
-class TexasInstruments_INA219_4_20mA(Sensor):
+class LINUX_TexasInstruments_INA219_4_20mA(Sensor):
   
 
   def __init__(self, mqtt_client, config):    
-    super().__init__("TexasInstruments", "INA219 4-20mA", "Current","I2C" ,mqtt_client, config)
+    super().__init__("LINUX","TexasInstruments", "INA219 4-20mA", "Current","I2C" ,mqtt_client, config)
     
     self.mySensorList = []
     

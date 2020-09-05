@@ -28,9 +28,9 @@ from os import path
 from Sensor import Sensor
 
 
-class Generic_PulseCounter(Sensor):
+class RPI_Generic_PulseCounter(Sensor):
   def __init__(self, mqtt_client, config):    
-    super().__init__("Generic", "PulseCounter", "PulseCounter","GPIO" ,mqtt_client, config)
+    super().__init__("RPI","Generic", "PulseCounter", "PulseCounter","GPIO" ,mqtt_client, config)
 
     self.count_flow_sensor = []
     self.count_flow_sensor_d1 = []
