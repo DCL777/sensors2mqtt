@@ -22,11 +22,12 @@ import yaml
 import RPi.GPIO as GPIO
 import logging
 
+
 import os.path
 from os import path
 
 from Sensor import Sensor
-
+from datetime import datetime
 
 class RPI_Generic_PulseCounter(Sensor):
   def __init__(self, mqtt_client, config):    
@@ -36,6 +37,10 @@ class RPI_Generic_PulseCounter(Sensor):
     self.count_flow_sensor_d1 = []
     self.count_flow_sensor_d1_100s = []
 
+    print(f"TODAY: {datetime.today().day}")
+    print(f"WEEK: {datetime.today().isocalendar()[1]}")
+    print(f"MONTH: {datetime.today().month}")
+    print(f"YEAR:  {datetime.today().year}")
 
     self.path = f"/home/pi/rp/{self.sensorName}.txt" 
     if path.isfile(self.path):  # check if it exists

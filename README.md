@@ -70,6 +70,7 @@ or execute the commands manually:
 => git clone https://github.com/DCL777/sensors2mqtt.git
 => cd sensors2mqtt
 => sudo pip3 install -r requirements.txt
+=> chmod 777 ./sensors2mqtt.py
 => ./sensors2mqtt.py
 ```
 ## Use with home-assistant

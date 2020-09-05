@@ -55,11 +55,20 @@ class sensors2mqtt():
 
   def initMQTT(self,config_mqtt):
     print(f"Start MQTT: Broker: {config_mqtt['broker']} Username: {config_mqtt['username']} \n") #Password: {config_mqtt['password']}")
-    client = mqtt.Client()
-    client.username_pw_set(config_mqtt['username'], config_mqtt['password'])
-    client.connect(config_mqtt['broker'])
-    client.loop_start()    
-    return client
+    
+    try:
+      client = mqtt.Client()
+      client.username_pw_set(config_mqtt['username'], config_mqtt['password'])
+      client.connect(config_mqtt['broker'])
+      client.loop_start()    
+      return client
+    except:
+      print("Unable to start MQTT Client.  Did you add the correct PASSWORD in your YAML file?\n")
+      print("Possible reasons:")
+      print("  -> wrong IP ADDRESS in your YAML file")
+      print("  -> wrong PASSWORD in your YAML file")
+      print("  -> is the MQTT server up and running?\n\n")
+      sys.exit()
 
   def run (self):
 
