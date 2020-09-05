@@ -30,6 +30,7 @@ class Sensor:
     sensorNameModified = self.sensorName.replace(' ', '_')
     sensorNameModified = sensorNameModified.replace('-','_')
 
+
     self.parameters = parameters.get(f"{self.supported_system}_{self.manufacturer}_{sensorNameModified}")
     self.logger = logging.getLogger(__name__)
 

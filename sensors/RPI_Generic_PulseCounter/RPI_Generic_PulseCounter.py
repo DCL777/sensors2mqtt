@@ -33,16 +33,24 @@ class RPI_Generic_PulseCounter(Sensor):
   def __init__(self, mqtt_client, config):    
     super().__init__("RPI","Generic", "PulseCounter", "PulseCounter","GPIO" ,mqtt_client, config)
 
+
+
     self.count_flow_sensor = []
     self.count_flow_sensor_d1 = []
     self.count_flow_sensor_d1_100s = []
 
+    #self.mydir = os.getcwd()
+
     print(f"TODAY: {datetime.today().day}")
-    print(f"WEEK: {datetime.today().isocalendar()[1]}")
+    print(f"WEEK:  {datetime.today().isocalendar()[1]}")
     print(f"MONTH: {datetime.today().month}")
     print(f"YEAR:  {datetime.today().year}")
+    print(f"DIR:   {os.getcwd()}")    
 
-    self.path = f"/home/pi/rp/{self.sensorName}.txt" 
+    self.path = f"{os.getcwd()}/sensors/{self.__class__.__name__}/{self.__class__.__name__}.txt" 
+    print(f"PATH:   {self.path}")
+
+
     if path.isfile(self.path):  # check if it exists
       data_file = open(self.path,'r')
       data = data_file.readlines()
@@ -61,6 +69,9 @@ class RPI_Generic_PulseCounter(Sensor):
         self.count_flow_sensor_d1.append(int(0))
         self.count_flow_sensor_d1_100s.append(int(0))
         i = i+1
+      data_file = open(self.path,'w+')
+      data_file.write("0\n0\n0\n0\n0\n" )
+      data_file.close()
     
     self.sensor_pin_lookup = {}  # dict: PIN = location in other tables 0->max
 
@@ -112,7 +123,7 @@ class RPI_Generic_PulseCounter(Sensor):
         self.count_flow_sensor_d1_100s[id] = self.count_flow_sensor[id]
       id = id + 1
     if (bool(changed)):
-        data_file = open(self.path,'w')
+        data_file = open(self.path,'w+')
         id = 0
         for sensor in self.parameters:
           data_file.write(str(self.count_flow_sensor[id]) + "\n" )
