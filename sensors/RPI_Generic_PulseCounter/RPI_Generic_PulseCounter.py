@@ -30,17 +30,14 @@ from os import path
 from Sensor import Sensor
 from datetime import datetime
 
-class RPI_Generic_PulseCounter(Sensor):
-  def __init__(self, mqtt_client, config):    
-    super().__init__("RPI","Generic", "PulseCounter", "PulseCounter","GPIO" ,mqtt_client, config)
+class one_Generic_PulsCounter():
 
+  def __init__(self, mqtt_client, sensorParameters,ownDir): 
+    self.sensorParameters = sensorParameters
+    self.mqtt_client = mqtt_client
 
-
-    self.count_flow_sensor = []
-    self.count_flow_sensor_d1 = []
-    self.count_flow_sensor_d1_100s = []
-
-    #self.mydir = os.getcwd()
+    self.sensor_pin = sensorParameters['pin_number']
+    self.logger = logging.getLogger(__name__)
 
     print(f"TODAY: {datetime.today().day}")
     print(f"WEEK:  {datetime.today().isocalendar()[1]}")
@@ -48,100 +45,75 @@ class RPI_Generic_PulseCounter(Sensor):
     print(f"YEAR:  {datetime.today().year}")
     print(f"DIR:   {os.getcwd()}")    
 
-    self.path = f"{os.getcwd()}/sensors/{self.__class__.__name__}/{self.__class__.__name__}.txt" 
-    print(f"PATH:   {self.path}")
+    self.json_file = f"{ownDir}pin_{self.sensor_pin}.json"     
+    print(f"json_file:   {self.json_file}")
 
-
-    if path.isfile(self.path):  # check if it exists
-      data_file = open(self.path,'r')
-      data = data_file.readlines()
-      data_file.close()
-
-      i = 0
-      for aline in data:
-        self.count_flow_sensor.append(int(aline))
-        self.count_flow_sensor_d1.append(int(aline))
-        self.count_flow_sensor_d1_100s.append(int(aline))
-        i = i+1
+    if path.isfile(self.json_file):  # check if it exists
+      self.read_from_file()
     else:  # initialize when no file was found to int(0)
-      i = 0
-      for sensor in self.parameters:
-        self.count_flow_sensor.append(int(0))
-        self.count_flow_sensor_d1.append(int(0))
-        self.count_flow_sensor_d1_100s.append(int(0))
-        i = i+1
-      data_file = open(self.path,'w+')
-      data_file.write("0\n0\n0\n0\n0\n" )
-      data_file.close()
-    
-    self.sensor_pin_lookup = {}  # dict: PIN = location in other tables 0->max
+      self.dictData = dict(delta=f"0", total=f"0", day="0", week="0",month="0",year="0")
+      self.total_d1 = 0
+      self.save_to_file()
 
-    i = 0
-    for sensor in self.parameters: 
-      sensor_pin = sensor['pin_number']
-      GPIO.setmode(GPIO.BCM)
-      GPIO.setup(sensor_pin, GPIO.IN, pull_up_down = GPIO.PUD_UP)      
-      GPIO.add_event_detect(sensor_pin, GPIO.FALLING, callback=self.countPulse)
-      self.sensor_pin_lookup[sensor_pin] = i
-      i = i+1
+    print(f"dictData: {self.dictData}")
+
+    GPIO.setmode(GPIO.BCM)
+    GPIO.setup(self.sensor_pin, GPIO.IN, pull_up_down = GPIO.PUD_UP)      
+    GPIO.add_event_detect(self.sensor_pin, GPIO.FALLING, callback=self.countPulse)
 
 
-  def countPulse(self,channel):
-    id = self.sensor_pin_lookup[channel]
-    self.count_flow_sensor[id] = self.count_flow_sensor[id] + 1
-    self.logger.debug(f'CHANNEL:  {channel}  \t  {self.count_flow_sensor[id]} ' ) 
-
+  def countPulse(self,channel):    
+    self.dictData['total'] = int(self.dictData['total']) + 1
+    self.logger.debug(f'CHANNEL:  {channel}  \t  {self.dictData} ' ) 
 
   def send_value_over_mqtt(self,mqtt_top_dir_name): 
-    id = 0
-    for sensor in self.parameters:   
-      #if self.count_flow_sensor_d1[id] < self.count_flow_sensor[id]:
-      delta = self.count_flow_sensor[id] - self.count_flow_sensor_d1[id]
-      self.count_flow_sensor_d1[id] = self.count_flow_sensor[id]  # save last value
-      
-      mqtt_sub_dir = sensor['mqtt_sub_dir']
-      function = sensor['function']
-      allData =  dict(delta=f"{delta}", total=f"{self.count_flow_sensor[id]}", day="0", week="0",month="0",year="0")
-      allDataJson = json.dumps(allData)
 
-      friendly_name = f"{mqtt_top_dir_name}/{mqtt_sub_dir}/{function}"
+      self.dictData['delta'] = int(self.dictData['total']) - int(self.total_d1)
+      self.total_d1 = self.dictData['total']  # save last value
+      
+      allDataJson = json.dumps(self.dictData)
+      friendly_name = f"{mqtt_top_dir_name}/{self.sensorParameters['mqtt_sub_dir']}/{self.sensorParameters['function']}"
       self.mqtt_client.publish(friendly_name, allDataJson)
       self.logger.info(f"    MQTT: {friendly_name}  {allDataJson}")
 
-     #friendly_name = f"{mqtt_top_dir_name}/{mqtt_sub_dir}/{function}/delta" 
-     #self.mqtt_client.publish(friendly_name, delta)
-     #self.logger.info(f"    MQTT: {friendly_name}  {delta}")
-     #friendly_name = f"{mqtt_top_dir_name}/{mqtt_sub_dir}/{function}/total" 
-     #self.mqtt_client.publish(friendly_name, self.count_flow_sensor[id])
-     #self.logger.info(f"    MQTT: {friendly_name}  {self.count_flow_sensor[id]}")  
-      id = id+1                      
+      if self.dictData['delta'] > 0:
+        self.save_to_file
+        
 
+
+  def save_to_file(self):
+    with open(self.json_file, "w+") as outfile:  
+      json.dump(self.dictData, outfile)
+      self.logger.debug (f"saved to file  {self.json_file}")
+
+
+  def read_from_file(self):
+      with open(self.json_file) as json_file: 
+        self.dictData = json.load(json_file) 
+      print(f"dictData: {self.dictData}")
+      self.total_d1 = self.dictData['total']
+
+
+
+
+class RPI_Generic_PulseCounter(Sensor):
+  def __init__(self, mqtt_client, config):    
+    super().__init__("RPI","Generic", "PulseCounter", "PulseCounter","GPIO" ,mqtt_client, config)
+    self.mySensorList = []
+    for sensor in self.parameters: 
+      self.mySensorList.append(one_Generic_PulsCounter(mqtt_client,sensor,f"{os.getcwd()}/sensors/{self.__class__.__name__}/") )
+
+
+  def send_value_over_mqtt(self,mqtt_top_dir_name): 
+    for x in self.mySensorList:
+      x.send_value_over_mqtt(mqtt_top_dir_name)
  
   def activate_100s_action(self):
     #print("100 seconds => write to file if changed")
-    self.save_if_changed()
+    #self.save_to_file()
     return
   
-  def save_if_changed(self):
-    id = 0
-    changed = False
-    for sensor in self.parameters: 
-      if self.count_flow_sensor_d1_100s[id] < self.count_flow_sensor[id]:       
-        changed = True
-        self.count_flow_sensor_d1_100s[id] = self.count_flow_sensor[id]
-      id = id + 1
-    if (bool(changed)):
-        data_file = open(self.path,'w+')
-        id = 0
-        for sensor in self.parameters:
-          data_file.write(str(self.count_flow_sensor[id]) + "\n" )
-          id = id +1
-        data_file.close()
-        self.logger.debug (f"save_if_changed => written to file => update found   {self.count_flow_sensor}")   
-    else:
-      self.logger.debug ("save_if_changed => no changes found")  
-    return
-
   def on_exit(self):
-    self.save_if_changed() # save if changed
+    for x in self.mySensorList:
+      x.save_to_file() 
     GPIO.cleanup()
