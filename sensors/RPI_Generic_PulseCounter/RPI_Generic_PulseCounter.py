@@ -45,6 +45,11 @@ class one_Generic_PulsCounter():
     print(f"YEAR:  {datetime.today().year}")
     print(f"DIR:   {os.getcwd()}")    
 
+    self.day_d1 = datetime.today().day
+    self.week_d1 = datetime.today().isocalendar()[1]
+    self.month_d1 = datetime.today().month
+    self.year_d1 = datetime.today().year
+
     self.json_file = f"{ownDir}pin_{self.sensor_pin}.json"     
     print(f"json_file:   {self.json_file}")
 
@@ -70,6 +75,28 @@ class one_Generic_PulsCounter():
 
       self.dictData['delta'] = int(self.dictData['total']) - int(self.total_d1)
       self.total_d1 = self.dictData['total']  # save last value
+
+      #------------------------------------------------------------------------
+      if self.day_d1 != datetime.today().day:
+        self.dictData['day'] = self.dictData['delta'] # start new day
+      else:
+        self.dictData['day'] = int(self.dictData['day']) + int(self.dictData['delta'])
+      #------------------------------------------------------------------------
+      if self.week_d1 != datetime.today().isocalendar()[1]:
+        self.dictData['week'] = self.dictData['delta'] # start new week
+      else:
+        self.dictData['week'] = int(self.dictData['week']) + int(self.dictData['delta'])
+      #------------------------------------------------------------------------
+      if self.month_d1 != datetime.today().month: 
+        self.dictData['month'] = self.dictData['delta'] # start new month
+      else:
+        self.dictData['month'] = int(self.dictData['month']) + int(self.dictData['delta'])
+      #------------------------------------------------------------------------
+      if self.year_d1 != datetime.today().year:
+        self.dictData['year'] = self.dictData['delta'] # start new year
+      else:
+        self.dictData['year'] = int(self.dictData['year']) + int(self.dictData['delta'])
+      #------------------------------------------------------------------------
       
       allDataJson = json.dumps(self.dictData)
       friendly_name = f"{mqtt_top_dir_name}/{self.sensorParameters['mqtt_sub_dir']}/{self.sensorParameters['function']}"
