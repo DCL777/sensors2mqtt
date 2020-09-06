@@ -21,6 +21,7 @@ import paho.mqtt.publish as publishpython
 import yaml
 import RPi.GPIO as GPIO
 import logging
+import json
 
 
 import os.path
@@ -100,17 +101,24 @@ class RPI_Generic_PulseCounter(Sensor):
       
       mqtt_sub_dir = sensor['mqtt_sub_dir']
       function = sensor['function']
-      friendly_name = f"{mqtt_top_dir_name}/{mqtt_sub_dir}/{function}/delta" 
-      self.mqtt_client.publish(friendly_name, delta)
-      self.logger.info(f"    MQTT: {friendly_name}  {delta}")
-      friendly_name = f"{mqtt_top_dir_name}/{mqtt_sub_dir}/{function}/total" 
-      self.mqtt_client.publish(friendly_name, self.count_flow_sensor[id])
-      self.logger.info(f"    MQTT: {friendly_name}  {self.count_flow_sensor[id]}")  
+      allData =  dict(delta=f"{delta}", total=f"{self.count_flow_sensor[id]}", day="0", week="0",month="0",year="0")
+      allDataJson = json.dumps(allData)
+
+      friendly_name = f"{mqtt_top_dir_name}/{mqtt_sub_dir}/{function}"
+      self.mqtt_client.publish(friendly_name, allDataJson)
+      self.logger.info(f"    MQTT: {friendly_name}  {allDataJson}")
+
+     #friendly_name = f"{mqtt_top_dir_name}/{mqtt_sub_dir}/{function}/delta" 
+     #self.mqtt_client.publish(friendly_name, delta)
+     #self.logger.info(f"    MQTT: {friendly_name}  {delta}")
+     #friendly_name = f"{mqtt_top_dir_name}/{mqtt_sub_dir}/{function}/total" 
+     #self.mqtt_client.publish(friendly_name, self.count_flow_sensor[id])
+     #self.logger.info(f"    MQTT: {friendly_name}  {self.count_flow_sensor[id]}")  
       id = id+1                      
 
  
   def activate_100s_action(self):
-    print("100 seconds => write to file if changed")
+    #print("100 seconds => write to file if changed")
     self.save_if_changed()
     return
   

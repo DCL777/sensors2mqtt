@@ -122,14 +122,14 @@ class sensors2mqtt():
 
       
         if ((time.time() %100.0 ) < 2):
-            logger.debug(f"100 seconds event => write to file if changed {time.time()}")
+            logger.debug(f"100 seconds event => write to file if changed {time.time()} =================================")
             for x in mySensorList:
               try:
                 x.activate_100s_action()  
               except Exception as e:
                 logging.error("\n\n\n" + traceback.format_exc() + "\n" )         
         else:
-            logger.debug(f"10 seconds event {time.time()}")        
+            logger.debug(f"10 seconds event {time.time()} ----------------------------------------------------------")        
   
      
         for x in mySensorList:
