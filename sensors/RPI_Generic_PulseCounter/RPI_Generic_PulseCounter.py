@@ -39,11 +39,11 @@ class one_Generic_PulsCounter():
     self.sensor_pin = sensorParameters['pin_number']
     self.logger = logging.getLogger(__name__)
 
-    print(f"TODAY: {datetime.today().day}")
-    print(f"WEEK:  {datetime.today().isocalendar()[1]}")
-    print(f"MONTH: {datetime.today().month}")
-    print(f"YEAR:  {datetime.today().year}")
-    print(f"DIR:   {os.getcwd()}")    
+    #print(f"TODAY: {datetime.today().day}")
+    #print(f"WEEK:  {datetime.today().isocalendar()[1]}")
+    #print(f"MONTH: {datetime.today().month}")
+    #print(f"YEAR:  {datetime.today().year}")
+    #print(f"DIR:   {os.getcwd()}")    
 
     self.day_d1 = datetime.today().day
     self.week_d1 = datetime.today().isocalendar()[1]
@@ -51,7 +51,7 @@ class one_Generic_PulsCounter():
     self.year_d1 = datetime.today().year
 
     self.json_file = f"{ownDir}pin_{self.sensor_pin}.json"     
-    print(f"json_file:   {self.json_file}")
+    #print(f"json_file:   {self.json_file}")
 
     if path.isfile(self.json_file):  # check if it exists
       self.read_from_file()
@@ -60,7 +60,7 @@ class one_Generic_PulsCounter():
       self.total_d1 = 0
       self.save_to_file()
 
-    print(f"dictData: {self.dictData}")
+    print(f"loaded data: {self.dictData}")
 
     GPIO.setmode(GPIO.BCM)
     GPIO.setup(self.sensor_pin, GPIO.IN, pull_up_down = GPIO.PUD_UP)      
@@ -117,7 +117,7 @@ class one_Generic_PulsCounter():
   def read_from_file(self):
       with open(self.json_file) as json_file: 
         self.dictData = json.load(json_file) 
-      print(f"dictData: {self.dictData}")
+      #print(f"dictData: {self.dictData}")
       self.total_d1 = self.dictData['total']
 
 
