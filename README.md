@@ -158,7 +158,7 @@ Starting main loop...
 2020-08-30 17:01:21,199 - INFO -     MQTT: garage/citern/height  19.567
 2020-08-30 17:01:21,202 - INFO -     MQTT: garage/citern/bus-voltage  12.517
 ```
-# Start at boot-time  (tested on raspberry-pi-os/)
+# Start at boot-time  (tested on raspberry-pi-os)
 
 1. create a configuration file
 ```
@@ -191,12 +191,18 @@ sudo systemctl daemon-reload
 sudo systemctl enable sensors2mqtt.service
 ```
 5. reboot
-```sudo reboot```
+```
+sudo reboot
+```
 
 6. check the status for the service
-```sudo systemctl status sensors2mqtt.service```
+```
+sudo systemctl status sensors2mqtt.service
+```
 or 
-```ps aux | grep sensor```
+```
+ps aux | grep sensor
+```
 
 
 
