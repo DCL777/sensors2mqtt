@@ -79,21 +79,25 @@ class one_Generic_PulsCounter():
       #------------------------------------------------------------------------
       if self.day_d1 != datetime.today().day:
         self.dictData['day'] = self.dictData['delta'] # start new day
+        self.day_d1 = datetime.today().day
       else:
         self.dictData['day'] = int(self.dictData['day']) + int(self.dictData['delta'])
       #------------------------------------------------------------------------
       if self.week_d1 != datetime.today().isocalendar()[1]:
         self.dictData['week'] = self.dictData['delta'] # start new week
+        self.week_d1 = datetime.today().isocalendar()[1]
       else:
         self.dictData['week'] = int(self.dictData['week']) + int(self.dictData['delta'])
       #------------------------------------------------------------------------
       if self.month_d1 != datetime.today().month: 
         self.dictData['month'] = self.dictData['delta'] # start new month
+        self.month_d1 = datetime.today().month
       else:
         self.dictData['month'] = int(self.dictData['month']) + int(self.dictData['delta'])
       #------------------------------------------------------------------------
       if self.year_d1 != datetime.today().year:
         self.dictData['year'] = self.dictData['delta'] # start new year
+        self.year_d1 = datetime.today().year
       else:
         self.dictData['year'] = int(self.dictData['year']) + int(self.dictData['delta'])
       #------------------------------------------------------------------------
@@ -109,7 +113,7 @@ class one_Generic_PulsCounter():
 
 
   def save_to_file(self):
-    with open(self.json_file, "w+") as outfile:  
+    with open(self.json_file, "w") as outfile:  
       json.dump(self.dictData, outfile)
       self.logger.debug (f"saved to file  {self.json_file}")
 

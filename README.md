@@ -158,6 +158,45 @@ Starting main loop...
 2020-08-30 17:01:21,199 - INFO -     MQTT: garage/citern/height  19.567
 2020-08-30 17:01:21,202 - INFO -     MQTT: garage/citern/bus-voltage  12.517
 ```
+# Start at boot-time  (tested on raspberry-pi-os/)
+
+1. create a configuration file
+```
+sudo nano /lib/systemd/system/sensors2mqtt.service
+```
+
+2. set the content to: 
+```
+[Unit]
+Description=Sensors to MQTT Service
+After=multi-user.target
+
+
+[Service]
+Type=idle
+WorkingDirectory=/home/pi/sensors2mqtt
+ExecStart=/usr/bin/python3 /home/pi/sensors2mqtt/sensors2mqtt.py -c settings.yaml
+
+[Install]
+WantedBy=multi-user.target
+
+```
+3. set ter permission to 644:
+```
+sudo chmod 644 /lib/systemd/system/sensors2mqtt.service
+```
+4. enable the service
+```
+sudo systemctl daemon-reload
+sudo systemctl enable sensors2mqtt.service
+```
+5. reboot
+```sudo reboot```
+
+6. check the status for the service
+```sudo systemctl status sensors2mqtt.service```
+or 
+```ps aux | grep sensor```
 
 
 

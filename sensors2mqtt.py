@@ -15,6 +15,8 @@
 #  You should have received a copy of the GNU General Public License 
 #  along with this program. If not, see <http://www.gnu.org/licenses/>.
 
+# todo: log to file: http://blog.scphillips.com/posts/2013/07/getting-a-python-script-to-run-in-the-background-as-a-service-on-boot/
+
 
 # Import package
 import os
