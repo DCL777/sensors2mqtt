@@ -13,9 +13,11 @@ Sensors:
   - pin_number: 23
     mqtt_sub_dir: garden
     function: water-flow  
+    scale_factor: 1
   - pin_number: 24
     mqtt_sub_dir: home
     function: water-flow
+    scale_factor: 1
   LINUX_TexasInstruments_INA219_4_20mA:  
   - address: 0x40
     mqtt_sub_dir: citern

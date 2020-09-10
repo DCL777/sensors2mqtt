@@ -37,6 +37,7 @@ class one_Generic_PulsCounter():
     self.mqtt_client = mqtt_client
 
     self.sensor_pin = sensorParameters['pin_number']
+    self.scaleFactor = sensorParameters['scale_factor']
     self.logger = logging.getLogger(__name__)
 
     #print(f"TODAY: {datetime.today().day}")
@@ -102,7 +103,12 @@ class one_Generic_PulsCounter():
         self.dictData['year'] = int(self.dictData['year']) + int(self.dictData['delta'])
       #------------------------------------------------------------------------
       
-      allDataJson = json.dumps(self.dictData)
+      self.dictDataScaled =  {}
+      for key in self.dictData:
+        self.dictDataScaled[key] = int(self.dictData[key]) * self.scaleFactor
+
+
+      allDataJson = json.dumps(self.dictDataScaled)
       friendly_name = f"{mqtt_top_dir_name}/{self.sensorParameters['mqtt_sub_dir']}/{self.sensorParameters['function']}"
       self.mqtt_client.publish(friendly_name, allDataJson)
       self.logger.info(f"    MQTT: {friendly_name}  {allDataJson}")
