@@ -34,20 +34,20 @@ sensor:
   - platform: mqtt
     name: "Stadswater Month"
     state_topic: "zolder/stadswater/water-flow"
-    unit_of_measurement: 'l'
-    value_template: "{{ value_json.month }}"
+    unit_of_measurement: 'm³'
+    value_template: "{{ (value_json.month | float / 1000) | round(2)}}"
     icon: mdi:water
   - platform: mqtt
     name: "Stadswater Year"
     state_topic: "zolder/stadswater/water-flow"
-    unit_of_measurement: 'l'
-    value_template: "{{ value_json.year }}"
+    unit_of_measurement: 'm³'
+    value_template: "{{ (value_json.year | float / 1000) | round(2)}}"
     icon: mdi:water
   - platform: mqtt
     name: "Stadswater All"
     state_topic: "zolder/stadswater/water-flow"
-    unit_of_measurement: 'l'
-    value_template: "{{ value_json.all }}"
+    unit_of_measurement: 'm³'
+    value_template: "{{ (value_json.all | float / 1000) | round(2)}}"
     icon: mdi:water
 ``` 
 # Example ui-lovelace.yaml entry
