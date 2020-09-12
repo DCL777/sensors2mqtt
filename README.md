@@ -1,6 +1,8 @@
 # sensors2mqtt
 Universal Sensor data transporter over MQTT.  Sensor like water flow sensor (=pulse-counter), DS18B20 , INA219,...  
 
+For each sensor, an update can be choosen between:  10 (sec.) ,30,60, 300 (5min) , 900 (15min), 3600 (1h) , 10800 (3h), 21600 (6h) , 43200 (12h)
+
 Supported sensors at the moment:
 - Maximintegrated_DS18B20 temperature sensor
 - Generic_PulseCounter

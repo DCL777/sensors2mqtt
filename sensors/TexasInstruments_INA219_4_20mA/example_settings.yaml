@@ -7,6 +7,7 @@ Sensors:
   TexasInstruments_INA219_4_20mA:  
   - address: 0x40                # 0x40 (hex) = 64
     platform: LINUX
+    update_interval: 10 # seconds  10,30,60, 300 (5min) , 900 (15min), 3600 (1h) , 10800 (3h), 21600 (6h) , 43200 (12h)
     mqtt_sub_dir: citern
     mqtt_function_name: height   # or Current...
     channel: 1                   # path: "/dev/i2c-1"   => channel 1 

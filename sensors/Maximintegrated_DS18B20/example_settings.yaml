@@ -7,7 +7,9 @@ Sensors:
   Maximintegrated_DS18B20:
   - path: /sys/bus/w1/devices/28-011939f0e24a/w1_slave
     platform: LINUX
+    update_interval: 10 # seconds  10,30,60, 300 (5min) , 900 (15min), 3600 (1h) , 10800 (3h), 21600 (6h) , 43200 (12h)
     mqtt_sub_dir: cistern
   - path: /sys/bus/w1/devices/28-01193a05774d/w1_slave
     platform: LINUX
+    update_interval: 10 # seconds  10,30,60, 300 (5min) , 900 (15min), 3600 (1h) , 10800 (3h), 21600 (6h) , 43200 (12h)
     friendly: Outside

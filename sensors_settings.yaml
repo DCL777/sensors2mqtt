@@ -7,19 +7,23 @@ Sensors:
   Maximintegrated_DS18B20:
   - path: /sys/bus/w1/devices/28-011939f0e24a/w1_slave
     platform: LINUX
+    update_interval: 10 # seconds  10,30,60, 300 (5min) , 900 (15min), 3600 (1h) , 10800 (3h), 21600 (6h) , 43200 (12h)
     mqtt_sub_dir: cistern
   - path: /sys/bus/w1/devices/28-01193a05774d/w1_slave
     platform: LINUX
+    update_interval: 10 # seconds  10,30,60, 300 (5min) , 900 (15min), 3600 (1h) , 10800 (3h), 21600 (6h) , 43200 (12h)
     friendly: Outside
   Generic_PulseCounter:
   - pin_number: 23
     platform: RPI
+    update_interval: 10 # seconds  10,30,60, 300 (5min) , 900 (15min), 3600 (1h) , 10800 (3h), 21600 (6h) , 43200 (12h)
     mqtt_sub_dir: garden
     function: water-flow  
     counter_scale: 1   # example: official water counter unit = 0.1 liter => so, unit is 1 liter => counter_scale = 0.1
     pulse_scale: 1    # example: 1 reed puls = 0.25 liter = so, pulse_scale = 2.5 for the counter, since my counter counts in 0.1 liter
   - pin_number: 24
     platform: RPI
+    update_interval: 10 # seconds  10,30,60, 300 (5min) , 900 (15min), 3600 (1h) , 10800 (3h), 21600 (6h) , 43200 (12h)
     mqtt_sub_dir: home
     function: water-flow
     counter_scale: 1   # example: official water counter unit = 0.1 liter => so, unit is 1 liter => counter_scale = 0.1
@@ -27,6 +31,7 @@ Sensors:
   TexasInstruments_INA219_4_20mA:  
   - address: 0x40                # 0x40 (hex) = 64
     platform: LINUX
+    update_interval: 10 # seconds  10,30,60, 300 (5min) , 900 (15min), 3600 (1h) , 10800 (3h), 21600 (6h) , 43200 (12h)
     mqtt_sub_dir: citern
     mqtt_function_name: height   # or Current...
     channel: 1                   # path: "/dev/i2c-1"   => channel 1 

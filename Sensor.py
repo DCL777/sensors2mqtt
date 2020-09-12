@@ -29,6 +29,8 @@ class Sensor:
     self.protocol = protocol
     self.mqtt_client = mqtt_client
 
+    self.update_interval = parameters['update_interval']
+
     # replace spaces and dashes to underscore !!
     sensorNameModified = self.sensorName.replace(' ', '_')
     sensorNameModified = sensorNameModified.replace('-','_')
@@ -59,3 +61,6 @@ class Sensor:
     pass
   def on_exit(self):
     pass
+
+  def get_update_interval(self):
+    return self.update_interval

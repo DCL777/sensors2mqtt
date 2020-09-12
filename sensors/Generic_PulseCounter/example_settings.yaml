@@ -7,6 +7,7 @@ Sensors:
   Generic_PulseCounter:
   - pin_number: 23
     platform: RPI
+    update_interval: 10 # seconds  10,30,60, 300 (5min) , 900 (15min), 3600 (1h) , 10800 (3h), 21600 (6h) , 43200 (12h)
     mqtt_sub_dir: garden
     function: water-flow  
     counter_scale: 1   # example: official water counter unit = 0.1 liter => so, unit is 1 liter => counter_scale = 0.1
