@@ -31,10 +31,10 @@ from Sensor import Sensor
 from datetime import datetime
 
 class RPI_Generic_PulseCounter(Sensor):
-  def __init__(self, mqtt_client, sensorParameters):    
+  def __init__(self, mqtt_client, sensorParameters,mqtt_top_dir_name):    
     super().__init__("RPI","Generic", "PulseCounter", "PulseCounter","GPIO" ,mqtt_client, sensorParameters)
 
-
+    self.mqtt_top_dir_name =mqtt_top_dir_name
 
     #ownDir = f"{os.getcwd()}/sensors/{self.__class__.__name__}/"
     
@@ -79,7 +79,7 @@ class RPI_Generic_PulseCounter(Sensor):
     self.dictData['total'] = float(self.dictData['total']) + self.pulseScale
     self.logger.debug(f'CHANNEL:  {channel}  \t  {self.dictData} ' ) 
 
-  def send_value_over_mqtt(self,mqtt_top_dir_name): 
+  def send_value_over_mqtt(self): 
 
       self.dictData['delta'] = float(self.dictData['total']) - float(self.total_d1)
       self.total_d1 = self.dictData['total']  # save last value
@@ -127,7 +127,7 @@ class RPI_Generic_PulseCounter(Sensor):
 
 
       allDataJson = json.dumps(self.dictDataScaled)
-      friendly_name = f"{mqtt_top_dir_name}/{self.sensorParameters['mqtt_sub_dir']}/{self.sensorParameters['function']}"
+      friendly_name = f"{self.mqtt_top_dir_name}/{self.sensorParameters['mqtt_sub_dir']}/{self.sensorParameters['function']}"
       self.mqtt_client.publish(friendly_name, allDataJson)
       self.logger.info(f"    MQTT: {friendly_name}  {allDataJson}")
 

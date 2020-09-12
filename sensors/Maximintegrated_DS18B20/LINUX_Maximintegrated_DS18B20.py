@@ -24,8 +24,9 @@ from Sensor import Sensor
 class LINUX_Maximintegrated_DS18B20(Sensor):
   
 
-  def __init__(self, mqtt_client, config):    
+  def __init__(self, mqtt_client, config,mqtt_top_dir_name):    
     super().__init__("LINUX","Maximintegrated", "DS18B20", "Temperature","1-Wire" ,mqtt_client, config)
+    self.mqtt_top_dir_name =mqtt_top_dir_name
     
   def read_temp_raw(self,path):
     try:
@@ -42,11 +43,11 @@ class LINUX_Maximintegrated_DS18B20(Sensor):
     temp_c = float(sensor_data[1]) / 1000.0 # convert value of t= to calcius
     return temp_c
 
-  def send_value_over_mqtt(self,mqtt_top_dir_name): 
+  def send_value_over_mqtt(self): 
     #for sensor in self.parameters:  
       sensor_value = self.read_temp_raw(self.parameters['path'])  # VALUE: -1000 = ERROR
       mqtt_sub_dir = self.parameters['mqtt_sub_dir']
-      friendly_name = f"{mqtt_top_dir_name}/{mqtt_sub_dir}/{self.function}" #.format(mqtt_sub_dir,self.function)
+      friendly_name = f"{self.mqtt_top_dir_name}/{mqtt_sub_dir}/{self.function}" #.format(mqtt_sub_dir,self.function)
       self.mqtt_client.publish(friendly_name, sensor_value)
       self.logger.info(f"    MQTT: {friendly_name}  {sensor_value}")    
   

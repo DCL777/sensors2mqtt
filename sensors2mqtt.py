@@ -114,7 +114,7 @@ class sensors2mqtt():
         module = importlib.import_module(class_to_load)
         logger.debug(f"    --> CLASS: {class_to_load}")
         aClass = getattr(module, f"{aSensor['platform']}_{aSensorClass}")
-        myClass = aClass(client,aSensor)
+        myClass = aClass(client,aSensor,mqtt_top_dir_name)
         mySensorList.append(myClass)
 
   
@@ -142,7 +142,7 @@ class sensors2mqtt():
      
         for x in mySensorList:
           try:
-            x.send_value_over_mqtt(mqtt_top_dir_name)
+            x.send_value_over_mqtt()
           except Exception as e:
             logging.error("\n\n\n" + traceback.format_exc() + "\n" )  
   

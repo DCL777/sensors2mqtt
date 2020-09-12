@@ -73,10 +73,10 @@ REG_CONFIG_VALUE_POWER_DOWN = [REG_CONFIG, 0x1F, 0xF8]
 class LINUX_TexasInstruments_INA219_4_20mA(Sensor):
   
 
-  def __init__(self, mqtt_client, aSensor):    
+  def __init__(self, mqtt_client, aSensor,mqtt_top_dir_name):    
     super().__init__("LINUX","TexasInstruments", "INA219 4-20mA", "Current","I2C" ,mqtt_client, aSensor)
 
-    
+    self.mqtt_top_dir_name = mqtt_top_dir_name
     self.mqtt_sub_dir         = aSensor['mqtt_sub_dir']
     self.i2c_channel          = aSensor['channel']  # "/dev/i2c-1"  = 1
     self.i2c_address          = aSensor['address']      
@@ -153,7 +153,7 @@ class LINUX_TexasInstruments_INA219_4_20mA(Sensor):
       self.print_value(i,read)  
 
 
-  def send_value_over_mqtt(self,mqtt_top_dir_name): 
+  def send_value_over_mqtt(self): 
     #print("Start convertion")
 
     self.bus = SMBus(self.i2c_channel)
@@ -165,7 +165,7 @@ class LINUX_TexasInstruments_INA219_4_20mA(Sensor):
     read = self.read_i2c_value(register)
     self.print_value(register,read) 
     sensor_value = self.convert_current_data_to_unit(read)
-    mqtt_dir = f"{mqtt_top_dir_name}/{self.mqtt_sub_dir}/{self.mqtt_function_name}" 
+    mqtt_dir = f"{self.mqtt_top_dir_name}/{self.mqtt_sub_dir}/{self.mqtt_function_name}" 
     self.mqtt_client.publish(mqtt_dir, sensor_value)
     self.logger.info(f"    MQTT: {mqtt_dir}  {sensor_value}") 
     # ------------------------------------------------------------------------------
@@ -173,7 +173,7 @@ class LINUX_TexasInstruments_INA219_4_20mA(Sensor):
     read = self.read_i2c_value(register)
     #self.print_value(register,read) 
     sensor_value = self.convert_voltage_data_to_unit(read)
-    mqtt_dir = f"{mqtt_top_dir_name}/{self.mqtt_sub_dir}/bus-voltage" 
+    mqtt_dir = f"{self.mqtt_top_dir_name}/{self.mqtt_sub_dir}/bus-voltage" 
     self.mqtt_client.publish(mqtt_dir, sensor_value)
     self.logger.info(f"    MQTT: {mqtt_dir}  {sensor_value}") 
     # ------------------------------------------------------------------------------
