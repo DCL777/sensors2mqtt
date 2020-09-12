@@ -103,22 +103,28 @@ class sensors2mqtt():
     logger.debug(f"================")
     # load only the sensors needed
     for aSensorClass in config_sensors:
-      #https://realpython.com/python-import/
-      class_to_load = f"sensors.{aSensorClass}.{aSensorClass}"
-      module = importlib.import_module(class_to_load)
-      logger.debug(f"    --> CLASS: {class_to_load}")
-      aClass = getattr(module, f"{aSensorClass}")
-      myClass = aClass(client,config_sensors)
-      mySensorList.append(myClass)
+      #print(f"aSensorClass =  {aSensorClass}")
+      sensorList = config_sensors.get(f"{aSensorClass}")
+      for aSensor in sensorList:
+        #print(f"aSensor =  {aSensor}")
+        #print(f"platform =  {aSensor['platform']}")
+        #https://realpython.com/python-import/
+        class_to_load = f"sensors.{aSensorClass}.{aSensor['platform']}_{aSensorClass}"
+        #print(f"class_to_load =  {class_to_load}")
+        module = importlib.import_module(class_to_load)
+        logger.debug(f"    --> CLASS: {class_to_load}")
+        aClass = getattr(module, f"{aSensor['platform']}_{aSensorClass}")
+        myClass = aClass(client,aSensor)
+        mySensorList.append(myClass)
 
   
     print("\nSensors found")
     print("----------------------------------------------------------------------")
     for x in mySensorList:
       x.printInfo()
-    print("----------------------------------------------------------------------\n\n")
+      print("----------------------------------------------------------------------")
 
-    print("\nStarting main loop...")
+    print("\n\n\nStarting main loop...")
     while True:       
       try:
 

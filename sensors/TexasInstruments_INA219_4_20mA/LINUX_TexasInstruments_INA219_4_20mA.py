@@ -70,9 +70,12 @@ REG_CONFIG_VALUE_RUN = [REG_CONFIG, 0x1F, 0xFF]
 REG_CONFIG_VALUE_POWER_DOWN = [REG_CONFIG, 0x1F, 0xF8]
 
 
-class my_ti_ina219_sensor():
+class LINUX_TexasInstruments_INA219_4_20mA(Sensor):
+  
 
-  def __init__(self, mqtt_client, aSensor): 
+  def __init__(self, mqtt_client, aSensor):    
+    super().__init__("LINUX","TexasInstruments", "INA219 4-20mA", "Current","I2C" ,mqtt_client, aSensor)
+
     
     self.mqtt_sub_dir         = aSensor['mqtt_sub_dir']
     self.i2c_channel          = aSensor['channel']  # "/dev/i2c-1"  = 1
@@ -183,29 +186,29 @@ class my_ti_ina219_sensor():
   def on_exit(self):
     pass
 
-class LINUX_TexasInstruments_INA219_4_20mA(Sensor):
-  
-
-  def __init__(self, mqtt_client, config):    
-    super().__init__("LINUX","TexasInstruments", "INA219 4-20mA", "Current","I2C" ,mqtt_client, config)
-    
-    self.mySensorList = []
-    
-    #print(f'{self.parameters}')
-
-    for sensor in self.parameters: 
-      self.mySensorList.append(my_ti_ina219_sensor(mqtt_client,sensor) )
-
-      
-  def send_value_over_mqtt(self,mqtt_top_dir_name): 
-
-    #print("in INA TOP")
-    for x in self.mySensorList:
-      x.send_value_over_mqtt(mqtt_top_dir_name)
-
+#class LINUX_TexasInstruments_INA219_4_20mA(Sensor):
 #  
-  def activate_100s_action(self):
-    pass
-  
-  def on_exit(self):
-    pass
+#
+#  def __init__(self, mqtt_client, config):    
+#    super().__init__("LINUX","TexasInstruments", "INA219 4-20mA", "Current","I2C" ,mqtt_client, config)
+#    
+#    self.mySensorList = []
+#    
+#    #print(f'{self.parameters}')
+#
+#    for sensor in self.parameters: 
+#      self.mySensorList.append(my_ti_ina219_sensor(mqtt_client,sensor) )
+#
+#      
+#  def send_value_over_mqtt(self,mqtt_top_dir_name): 
+#
+#    #print("in INA TOP")
+#    for x in self.mySensorList:
+#      x.send_value_over_mqtt(mqtt_top_dir_name)
+#
+##  
+#  def activate_100s_action(self):
+#    pass
+#  
+#  def on_exit(self):
+#    pass

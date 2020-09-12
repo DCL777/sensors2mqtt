@@ -17,6 +17,9 @@
 
 import logging
 
+import os.path
+from os import path
+
 class Sensor:
   def __init__(self, supported_system, manufacturer, sensorName, function,protocol,mqtt_client, parameters):
     self.supported_system = supported_system
@@ -30,27 +33,26 @@ class Sensor:
     sensorNameModified = self.sensorName.replace(' ', '_')
     sensorNameModified = sensorNameModified.replace('-','_')
 
+    self.ownDir = f"{os.getcwd()}/sensors/{self.manufacturer}_{sensorNameModified}/"
 
-    self.parameters = parameters.get(f"{self.supported_system}_{self.manufacturer}_{sensorNameModified}")
+    self.parameters = parameters #.get(f"{self.supported_system}_{self.manufacturer}_{sensorNameModified}")
     self.logger = logging.getLogger(__name__)
 
 
   def printInfo(self):
     print(f" -> {self.sensorName} \t {self.manufacturer} \t {self.function} \t {self.protocol} \t {self.supported_system}")
-    self.count = 0
-    for a_sensor in self.parameters:
-      self.count = self.count +1
-      print(f"    -> Sensor {self.count}:")
-      for an_item in a_sensor.items():        
-        print(f"        -> {an_item[0]} = {an_item[1]}")        
+    #self.count = 0
+    #for a_sensor in self.parameters:
+    #  self.count = self.count +1
+    #print(f"    -> Sensor {self.count}:")
+    for an_item in self.parameters.items():        
+      print(f"        -> {an_item[0]} = {an_item[1]}")        
         #print(f"    -> {an_item}")
       #print(f"    -> {a_sensor.items()}")
 
   def is_configured(self):
     return bool(self.parameters)
   
-  def get_sensors_found(self):
-    return self.count
   def send_value_over_mqtt(self,mqtt_top_dir_name):
     pass
   def activate_100s_action(self):

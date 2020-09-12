@@ -1,0 +1,19 @@
+mqtt:
+  broker: "192.168.1.100"
+  username: ha
+  password: [YOUR PASSWORD HERE]
+  top_dir_name: garage  # used as MQTT top directory
+Sensors:
+  Generic_PulseCounter:
+  - pin_number: 23
+    platform: RPI
+    mqtt_sub_dir: garden
+    function: water-flow  
+    counter_scale: 1   # example: official water counter unit = 0.1 liter => so, unit is 1 liter => counter_scale = 0.1
+    pulse_scale: 1    # example: 1 reed puls = 0.25 liter = so, pulse_scale = 2.5 for the counter, since my counter counts in 0.1 liter
+  - pin_number: 24
+    platform: RPI
+    mqtt_sub_dir: home
+    function: water-flow
+    counter_scale: 1   # example: official water counter unit = 0.1 liter => so, unit is 1 liter => counter_scale = 0.1
+    pulse_scale: 1    # example: 1 reed puls = 0.25 liter = so, pulse_scale = 2.5 for the counter, since my counter counts in 0.1 liter

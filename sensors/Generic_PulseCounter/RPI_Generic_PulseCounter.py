@@ -30,9 +30,15 @@ from os import path
 from Sensor import Sensor
 from datetime import datetime
 
-class one_Generic_PulsCounter():
+class RPI_Generic_PulseCounter(Sensor):
+  def __init__(self, mqtt_client, sensorParameters):    
+    super().__init__("RPI","Generic", "PulseCounter", "PulseCounter","GPIO" ,mqtt_client, sensorParameters)
 
-  def __init__(self, mqtt_client, sensorParameters,ownDir): 
+
+
+    #ownDir = f"{os.getcwd()}/sensors/{self.__class__.__name__}/"
+    
+    #{self.manufacturer}_{sensorNameModified}
     self.sensorParameters = sensorParameters
     self.mqtt_client = mqtt_client
 
@@ -52,7 +58,7 @@ class one_Generic_PulsCounter():
     self.month_d1 = datetime.today().month
     self.year_d1 = datetime.today().year
 
-    self.json_file = f"{ownDir}pin_{self.sensor_pin}.json"     
+    self.json_file = f"{self.ownDir}pin_{self.sensor_pin}.json"     
     #print(f"json_file:   {self.json_file}")
 
     if path.isfile(self.json_file):  # check if it exists
@@ -62,7 +68,7 @@ class one_Generic_PulsCounter():
       self.total_d1 = 0
       self.save_to_file()
 
-    print(f"loaded data: {self.dictData}")
+    #print(f"loaded data: {self.dictData}")
 
     GPIO.setmode(GPIO.BCM)
     GPIO.setup(self.sensor_pin, GPIO.IN, pull_up_down = GPIO.PUD_UP)      
@@ -143,20 +149,6 @@ class one_Generic_PulsCounter():
       #print(f"dictData: {self.dictData}")
       self.total_d1 = self.dictData['total']
 
-
-
-
-class RPI_Generic_PulseCounter(Sensor):
-  def __init__(self, mqtt_client, config):    
-    super().__init__("RPI","Generic", "PulseCounter", "PulseCounter","GPIO" ,mqtt_client, config)
-    self.mySensorList = []
-    for sensor in self.parameters: 
-      self.mySensorList.append(one_Generic_PulsCounter(mqtt_client,sensor,f"{os.getcwd()}/sensors/{self.__class__.__name__}/") )
-
-
-  def send_value_over_mqtt(self,mqtt_top_dir_name): 
-    for x in self.mySensorList:
-      x.send_value_over_mqtt(mqtt_top_dir_name)
  
   def activate_100s_action(self):
     #print("100 seconds => write to file if changed")
@@ -164,6 +156,5 @@ class RPI_Generic_PulseCounter(Sensor):
     return
   
   def on_exit(self):
-    for x in self.mySensorList:
-      x.save_to_file() 
+    self.save_to_file() 
     GPIO.cleanup()

@@ -4,8 +4,9 @@ mqtt:
   password: [YOUR PASSWORD HERE]
   top_dir_name: garage  # used as MQTT top directory
 Sensors:
-  LINUX_TexasInstruments_INA219_4_20mA:  
-  - address: 0x40
+  TexasInstruments_INA219_4_20mA:  
+  - address: 0x40                # 0x40 (hex) = 64
+    platform: LINUX
     mqtt_sub_dir: citern
     mqtt_function_name: height   # or Current...
     channel: 1                   # path: "/dev/i2c-1"   => channel 1 
