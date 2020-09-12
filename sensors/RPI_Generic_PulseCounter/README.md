@@ -32,12 +32,6 @@ sensor:
     value_template: "{{ value_json.day }}"
     icon: mdi:water
   - platform: mqtt
-    name: "Stadswater Week"
-    state_topic: "zolder/stadswater/water-flow"
-    unit_of_measurement: 'l'
-    value_template: "{{ value_json.week }}"
-    icon: mdi:water
-  - platform: mqtt
     name: "Stadswater Month"
     state_topic: "zolder/stadswater/water-flow"
     unit_of_measurement: 'l'
@@ -48,6 +42,12 @@ sensor:
     state_topic: "zolder/stadswater/water-flow"
     unit_of_measurement: 'l'
     value_template: "{{ value_json.year }}"
+    icon: mdi:water
+  - platform: mqtt
+    name: "Stadswater All"
+    state_topic: "zolder/stadswater/water-flow"
+    unit_of_measurement: 'l'
+    value_template: "{{ value_json.all }}"
     icon: mdi:water
 ``` 
 # Example ui-lovelace.yaml entry
@@ -77,12 +77,6 @@ sensor:
               name: Stadswater              
         hours_to_show: 200
       - type: history-graph
-        title: 'Water Week'
-        entities:
-            - entity: sensor.stadswater_week
-              name: Stadswater              
-        hours_to_show: 700
-      - type: history-graph
         title: 'Water Month'
         entities:
             - entity: sensor.stadswater_month
@@ -93,7 +87,14 @@ sensor:
         entities:
             - entity: sensor.stadswater_year
               name: Stadswater              
-        hours_to_show: 20000
+        hours_to_show: 200000
+      - type: history-graph
+        title: 'Water All'
+        entities:
+            - entity: sensor.stadswater_all
+              name: Stadswater              
+        hours_to_show: 200000
+
 ``` 
 
 # Hardware setup:

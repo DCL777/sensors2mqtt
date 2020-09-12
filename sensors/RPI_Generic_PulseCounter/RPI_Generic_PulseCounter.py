@@ -57,7 +57,7 @@ class one_Generic_PulsCounter():
     if path.isfile(self.json_file):  # check if it exists
       self.read_from_file()
     else:  # initialize when no file was found to int(0)
-      self.dictData = dict(delta=f"0", total=f"0", day="0", week="0",month="0",year="0")
+      self.dictData = dict(delta=f"0", total=f"0", day="0",month="0",year="0", all="0")
       self.total_d1 = 0
       self.save_to_file()
 
@@ -77,6 +77,27 @@ class one_Generic_PulsCounter():
       self.dictData['delta'] = int(self.dictData['total']) - int(self.total_d1)
       self.total_d1 = self.dictData['total']  # save last value
 
+      # day     delta_steps_one_day   = one day increments with  delta
+      # month   day_steps_one_month   = one week increments with total day 
+      # removed # year wsoy  week_steps_one_year   = one month increments with total day
+      # year    month_steps_one_year  = one year increments with a total month value
+      # all     year_steps            = one year increments with a total month value
+        
+      #------------------------------------------------------------------------
+      if self.year_d1 != datetime.today().year:
+        self.dictData['all'] = int(self.dictData['all']) + int(self.dictData['year'])
+        self.dictData['year'] = self.dictData['month'] # start new month
+        self.month_d1 = datetime.today().month
+      else:
+        if self.month_d1 != datetime.today().month: 
+          self.dictData['year'] = int(self.dictData['year']) + int(self.dictData['month'])
+      #------------------------------------------------------------------------
+      if self.month_d1 != datetime.today().month: 
+        self.dictData['month'] = self.dictData['day'] # start new day
+        self.day_d1 = datetime.today().day
+      else:
+        if self.day_d1 != datetime.today().day:
+          self.dictData['month'] = int(self.dictData['month']) + int(self.dictData['day'])
       #------------------------------------------------------------------------
       if self.day_d1 != datetime.today().day:
         self.dictData['day'] = self.dictData['delta'] # start new day
@@ -84,24 +105,14 @@ class one_Generic_PulsCounter():
       else:
         self.dictData['day'] = int(self.dictData['day']) + int(self.dictData['delta'])
       #------------------------------------------------------------------------
-      if self.week_d1 != datetime.today().isocalendar()[1]:
-        self.dictData['week'] = self.dictData['delta'] # start new week
-        self.week_d1 = datetime.today().isocalendar()[1]
-      else:
-        self.dictData['week'] = int(self.dictData['week']) + int(self.dictData['delta'])
+      #if self.week_d1 != datetime.today().isocalendar()[1]:
+      #  self.dictData['owi'] = self.dictData['delta'] # start new week
+      #  self.week_d1 = datetime.today().isocalendar()[1]
+      #else:
+      #  self.dictData['owi'] = int(self.dictData['owi']) + int(self.dictData['delta'])
       #------------------------------------------------------------------------
-      if self.month_d1 != datetime.today().month: 
-        self.dictData['month'] = self.dictData['delta'] # start new month
-        self.month_d1 = datetime.today().month
-      else:
-        self.dictData['month'] = int(self.dictData['month']) + int(self.dictData['delta'])
-      #------------------------------------------------------------------------
-      if self.year_d1 != datetime.today().year:
-        self.dictData['year'] = self.dictData['delta'] # start new year
-        self.year_d1 = datetime.today().year
-      else:
-        self.dictData['year'] = int(self.dictData['year']) + int(self.dictData['delta'])
-      #------------------------------------------------------------------------
+
+
       
       self.dictDataScaled =  {}
       for key in self.dictData:
@@ -114,7 +125,8 @@ class one_Generic_PulsCounter():
       self.logger.info(f"    MQTT: {friendly_name}  {allDataJson}")
 
       if self.dictData['delta'] > 0:
-        self.save_to_file
+        #print("delta > 0 => save to file")
+        self.save_to_file()
         
 
 
