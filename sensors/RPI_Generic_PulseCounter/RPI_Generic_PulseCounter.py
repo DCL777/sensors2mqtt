@@ -37,7 +37,8 @@ class one_Generic_PulsCounter():
     self.mqtt_client = mqtt_client
 
     self.sensor_pin = sensorParameters['pin_number']
-    self.scaleFactor = sensorParameters['scale_factor']
+    self.pulseScale = sensorParameters['pulse_scale']
+    self.counterScale = sensorParameters['counter_scale']
     self.logger = logging.getLogger(__name__)
 
     #print(f"TODAY: {datetime.today().day}")
@@ -69,12 +70,12 @@ class one_Generic_PulsCounter():
 
 
   def countPulse(self,channel):    
-    self.dictData['total'] = int(self.dictData['total']) + 1
+    self.dictData['total'] = float(self.dictData['total']) + self.pulseScale
     self.logger.debug(f'CHANNEL:  {channel}  \t  {self.dictData} ' ) 
 
   def send_value_over_mqtt(self,mqtt_top_dir_name): 
 
-      self.dictData['delta'] = int(self.dictData['total']) - int(self.total_d1)
+      self.dictData['delta'] = float(self.dictData['total']) - float(self.total_d1)
       self.total_d1 = self.dictData['total']  # save last value
 
       # day     delta_steps_one_day   = one day increments with  delta
@@ -85,25 +86,25 @@ class one_Generic_PulsCounter():
         
       #------------------------------------------------------------------------
       if self.year_d1 != datetime.today().year:
-        self.dictData['all'] = int(self.dictData['all']) + int(self.dictData['year'])
+        self.dictData['all'] = float(self.dictData['all']) + float(self.dictData['year'])
         self.dictData['year'] = self.dictData['month'] # start new month
         self.month_d1 = datetime.today().month
       else:
         if self.month_d1 != datetime.today().month: 
-          self.dictData['year'] = int(self.dictData['year']) + int(self.dictData['month'])
+          self.dictData['year'] = float(self.dictData['year']) + float(self.dictData['month'])
       #------------------------------------------------------------------------
       if self.month_d1 != datetime.today().month: 
         self.dictData['month'] = self.dictData['day'] # start new day
         self.day_d1 = datetime.today().day
       else:
         if self.day_d1 != datetime.today().day:
-          self.dictData['month'] = int(self.dictData['month']) + int(self.dictData['day'])
+          self.dictData['month'] = float(self.dictData['month']) + float(self.dictData['day'])
       #------------------------------------------------------------------------
       if self.day_d1 != datetime.today().day:
-        self.dictData['day'] = self.dictData['delta'] # start new day
+        self.dictData['day'] = self.dictData['delta']  # start new day
         self.day_d1 = datetime.today().day
       else:
-        self.dictData['day'] = int(self.dictData['day']) + int(self.dictData['delta'])
+        self.dictData['day'] = float(self.dictData['day']) + float(int(self.dictData['delta'] ))
       #------------------------------------------------------------------------
       #if self.week_d1 != datetime.today().isocalendar()[1]:
       #  self.dictData['owi'] = self.dictData['delta'] # start new week
@@ -116,7 +117,7 @@ class one_Generic_PulsCounter():
       
       self.dictDataScaled =  {}
       for key in self.dictData:
-        self.dictDataScaled[key] = int(self.dictData[key]) * self.scaleFactor
+        self.dictDataScaled[key] = round(float(self.dictData[key]) * self.counterScale,1)
 
 
       allDataJson = json.dumps(self.dictDataScaled)
