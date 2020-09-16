@@ -66,15 +66,15 @@ REG_POWER = 0x03
 REG_CURRENT = 0x04
 REG_CALIBRATION = 0x05
 
-REG_CONFIG_VALUE_RUN = [REG_CONFIG, 0x1F, 0xFF]
-REG_CONFIG_VALUE_POWER_DOWN = [REG_CONFIG, 0x1F, 0xF8]
+REG_CONFIG_VALUE_RUN = [REG_CONFIG, 0x4E, 0x3B]         # triggered
+REG_CONFIG_VALUE_POWER_DOWN = [REG_CONFIG, 0x4E, 0x38]  
 
 
-class LINUX_TexasInstruments_INA219_4_20mA(Sensor):
+class LINUX_TexasInstruments_INA226_4_20mA(Sensor):
   
 
   def __init__(self, mqtt_client, aSensor,mqtt_top_dir_name):    
-    super().__init__("LINUX","TexasInstruments", "INA219 4-20mA", "Current","I2C" ,mqtt_client, aSensor)
+    super().__init__("LINUX","TexasInstruments", "INA226 4-20mA", "Current","I2C" ,mqtt_client, aSensor)
 
     self.mqtt_top_dir_name = mqtt_top_dir_name
     self.mqtt_sub_dir         = aSensor['mqtt_sub_dir']
@@ -102,7 +102,7 @@ class LINUX_TexasInstruments_INA219_4_20mA(Sensor):
 
   def convert_voltage_data_to_unit(self, data):
     val = int.from_bytes(data, byteorder='big')
-    val_mV = val / 2000 # /8 * 4mV
+    val_mV = val # TODO BUS Voltage
     return val_mV
 
 
@@ -114,7 +114,7 @@ class LINUX_TexasInstruments_INA219_4_20mA(Sensor):
 
   def convert_data_to_mV(self, data):
     val = int.from_bytes(data, byteorder='big')
-    val_mV = val / 100
+    val_mV = val * 2.44140625 / 1000 # 80mV / 2**15 (32768) = 2.44140625µV
     return val_mV
 
   def convert_mV_to_mA(self, val_mV):
@@ -124,6 +124,7 @@ class LINUX_TexasInstruments_INA219_4_20mA(Sensor):
   def convert_mA_to_unit(self, val_mA):
     cal_val = val_mA - self.calibration_low_mA
     scale = self.full_range_value / (self.calibration_high_mA - self.calibration_low_mA)
+    #print (f"scale = {scale}   cal_valm = {cal_val}")
     cal_val_scaled = round(cal_val * scale  ,1)
     return float(cal_val_scaled) + float(self.offset)
 
@@ -160,7 +161,7 @@ class LINUX_TexasInstruments_INA219_4_20mA(Sensor):
     self.bus = SMBus(self.i2c_channel)
     write = i2c_msg.write(self.i2c_address, REG_CONFIG_VALUE_RUN)
     self.bus.i2c_rdwr(write)
-    time.sleep(0.3)    
+    time.sleep(9)  # convertion time +/- 8.5 seconds, due to 1024x oversampling & 8.44ms sample time
     # ------------------------------------------------------------------------------
     register = REG_SHUNT_VOLTAGE
     read = self.read_i2c_value(register)
@@ -186,30 +187,3 @@ class LINUX_TexasInstruments_INA219_4_20mA(Sensor):
   
   def on_exit(self):
     pass
-
-#class LINUX_TexasInstruments_INA219_4_20mA(Sensor):
-#  
-#
-#  def __init__(self, mqtt_client, config):    
-#    super().__init__("LINUX","TexasInstruments", "INA219 4-20mA", "Current","I2C" ,mqtt_client, config)
-#    
-#    self.mySensorList = []
-#    
-#    #print(f'{self.parameters}')
-#
-#    for sensor in self.parameters: 
-#      self.mySensorList.append(my_ti_ina219_sensor(mqtt_client,sensor) )
-#
-#      
-#  def send_value_over_mqtt(self,mqtt_top_dir_name): 
-#
-#    #print("in INA TOP")
-#    for x in self.mySensorList:
-#      x.send_value_over_mqtt(mqtt_top_dir_name)
-#
-##  
-#  def activate_100s_action(self):
-#    pass
-#  
-#  def on_exit(self):
-#    pass
