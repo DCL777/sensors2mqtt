@@ -16,7 +16,7 @@ Sensors:
     calibration_high_mA: 20.0    # 20mA
     full_range_value:  5000      # 5 mm = 20mA         0m = 4mA
     offset:            15        # mm
-    unit: mm                     # mm  
+    unit: mm                     # mm 
 
 
 

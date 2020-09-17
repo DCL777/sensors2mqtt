@@ -152,8 +152,8 @@ class sensors2mqtt():
           event = 30
         elif ((time.time() %10 ) < 2):
           event = 10
-        else: 
-          logging.error("\n  ===========> event not in range (!) check" )   
+        #else: 
+        #  logging.error("\n  ===========> event not in range (!) check" )   
 
         logging.info(f"EVENT = {event}")
 
