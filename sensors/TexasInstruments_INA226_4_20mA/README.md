@@ -12,41 +12,15 @@ interface: I2C
   sudo i2cdetect -y 1
   ```
 
+# Application 1: Measure Citern water height with: Submersible Water Level Transducer Sensor 0-5m H2O
 
-## Use with home-assistant
-Update your sensors section in configuration.yml with the new mqtt topics, for example:
-```
-sensor:
-  - platform: mqtt
-    state_topic: "garage/citern1/height"
-    name: "Citern Water Height"
-    icon: mdi:water-pump
-    unit_of_measurement: "mm"
-  - platform: mqtt
-    name: citern_available_water
-    state_topic: "garage/citern1/height"
-    unit_of_measurement: 'm³'
-    value_template: "{{ (((value  | float)-260) * 0.016537988) | round(3) }}"
-    icon: mdi:water-pump
-  - platform: mqtt
-    name: citern_buffer
-    state_topic: "garage/citern1/height"
-    unit_of_measurement: 'Days'
-    value_template: "{{ ((((value  | float)-260) * 16.537988) | round(3) / 137)| round(1)}}"
-    icon: mdi:water-pump
-  ```
-![screenshot](HA_INA226_01.PNG?raw=true)
-![screenshot](HA_INA226_02.PNG?raw=true)
-
-
-# Hardware setup:
+## Hardware setup:
 ![screenshot](../../docs/images/hw.png?raw=true)
 
 some hardware comments:
 - The I2C-bus needs a pull up resistor of 2k2 (10k in some cases). Check your boards if it's installed.
 
-
-# Calibration:
+## Calibration:
 
 Calibration Settings:
   ```
@@ -91,3 +65,60 @@ Steps:
   ```  
   remark: the bigger the height the more accurate it will be
 3. restart the software
+
+
+## Use with home-assistant
+Update your sensors section in configuration.yml with the new mqtt topics, for example:
+```
+sensor:
+  - platform: mqtt
+    state_topic: "garage/citern1/height"
+    name: "Citern Water Height"
+    icon: mdi:water-pump
+    unit_of_measurement: "mm"
+  - platform: mqtt
+    name: citern_available_water
+    state_topic: "garage/citern1/height"
+    unit_of_measurement: 'm³'
+    value_template: "{{ (((value  | float)-260) * 0.016537988) | round(3) }}"
+    icon: mdi:water-pump
+  - platform: mqtt
+    name: citern_buffer
+    state_topic: "garage/citern1/height"
+    unit_of_measurement: 'Days'
+    value_template: "{{ ((((value  | float)-260) * 16.537988) | round(3) / 137)| round(1)}}"
+    icon: mdi:water-pump
+  ```
+  example GUI: ui-lovelace.yaml
+  ```           
+      - type: entities
+        show_header_toggle: false
+        title: Citern water INA226
+        entities:
+          - entity: sensor.citern_available_water_2
+            name: Available 2
+          - entity: sensor.citern_water_height_2
+            name: Water height 2
+          - entity: sensor.citern_buffer_2
+            name: Buffer 2                          
+      - type: history-graph
+        title: 'Water height'
+        entities:
+            - entity: sensor.citern_water_height
+              name: Height 1              
+            - entity: sensor.citern_water_height_2
+              name: Height 2              
+        hours_to_show: 24
+      - type: history-graph
+        title: 'Water Buffer'
+        entities:
+            - entity: sensor.citern_buffer
+              name: Buffer 1              
+            - entity: sensor.citern_buffer_2
+              name: Buffer 2              
+        hours_to_show: 24
+  ```
+![screenshot](HA_INA226_01.PNG?raw=true)
+![screenshot](HA_INA226_02.PNG?raw=true)
+
+
