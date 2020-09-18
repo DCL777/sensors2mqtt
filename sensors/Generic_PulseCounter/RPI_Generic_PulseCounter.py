@@ -146,6 +146,7 @@ class RPI_Generic_PulseCounter(Sensor):
   def read_from_file(self):
       with open(self.json_file) as json_file: 
         self.dictData = json.load(json_file) 
+        self.dictData['delta'] = 0  # reset delta
       #print(f"dictData: {self.dictData}")
       self.total_d1 = self.dictData['total']
 

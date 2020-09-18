@@ -14,37 +14,37 @@ Update your sensors section in configuration.yml with the new mqtt topics, for e
 ```
 sensor:
   - platform: mqtt
-    name: "Stadswater Total"
+    name: "Drinking Water Total"
     state_topic: "zolder/stadswater/water-flow"
-    unit_of_measurement: 'l'
-    value_template: "{{ value_json.total }}"
+    unit_of_measurement: 'm³'
+    value_template: "{{ (value_json.total  | float / 1000) | round(4) }}"
     icon: mdi:water
   - platform: mqtt
-    name: "Stadswater Delta"
+    name: "Drinking Water Delta"
     state_topic: "zolder/stadswater/water-flow"
     unit_of_measurement: 'l'
     value_template: "{{ value_json.delta }}"
     icon: mdi:water
   - platform: mqtt
-    name: "Stadswater Day"
+    name: "Drinking Water Day"
     state_topic: "zolder/stadswater/water-flow"
     unit_of_measurement: 'l'
     value_template: "{{ value_json.day }}"
     icon: mdi:water
   - platform: mqtt
-    name: "Stadswater Month"
+    name: "Drinking Water Month"
     state_topic: "zolder/stadswater/water-flow"
     unit_of_measurement: 'm³'
     value_template: "{{ (value_json.month | float / 1000) | round(2)}}"
     icon: mdi:water
   - platform: mqtt
-    name: "Stadswater Year"
+    name: "Drinking Water Year"
     state_topic: "zolder/stadswater/water-flow"
     unit_of_measurement: 'm³'
     value_template: "{{ (value_json.year | float / 1000) | round(2)}}"
     icon: mdi:water
   - platform: mqtt
-    name: "Stadswater All"
+    name: "Drinking Water All"
     state_topic: "zolder/stadswater/water-flow"
     unit_of_measurement: 'm³'
     value_template: "{{ (value_json.all | float / 1000) | round(2)}}"
