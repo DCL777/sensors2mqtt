@@ -81,12 +81,6 @@ or execute the commands manually:
 => ./sensors2mqtt.py
 ```
 
-## Update
-```
-=> cd sensors2mqtt
-=> git pull -v --progress "origin"
-```
-
 ## Use with home-assistant
 Update your sensors section in configuration.yml with the new mqtt topics, for example:
 ```
