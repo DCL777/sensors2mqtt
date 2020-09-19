@@ -72,21 +72,22 @@ Update your sensors section in configuration.yml with the new mqtt topics, for e
 ```
 sensor:
   - platform: mqtt
-    state_topic: "garage/citern1/height"
-    name: "Citern Water Height"
+    state_topic: "garage/citern2/height"
+    name: "Citern Water Height 2"
+    value_template: "{{ (((value_json.value  | float)-260) * 0.016537988) | round(3) }}"
     icon: mdi:water-pump
     unit_of_measurement: "mm"
   - platform: mqtt
-    name: citern_available_water
-    state_topic: "garage/citern1/height"
+    name: citern_available_water_2
+    state_topic: "garage/citern2/height"
     unit_of_measurement: 'm³'
-    value_template: "{{ (((value  | float)-260) * 0.016537988) | round(3) }}"
+    value_template: "{{ (((value_json.value  | float)-260) * 0.016537988) | round(3) }}"
     icon: mdi:water-pump
   - platform: mqtt
-    name: citern_buffer
-    state_topic: "garage/citern1/height"
+    name: citern_buffer_2
+    state_topic: "garage/citern2/height"
     unit_of_measurement: 'Days'
-    value_template: "{{ ((((value  | float)-260) * 16.537988) | round(3) / 137)| round(1)}}"
+    value_template: "{{ ((((value_json.value  | float)-260) * 16.537988) | round(3) / 137)| round(1)}}"
     icon: mdi:water-pump
   ```
   example GUI: ui-lovelace.yaml

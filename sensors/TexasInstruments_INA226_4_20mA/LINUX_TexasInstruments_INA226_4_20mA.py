@@ -18,6 +18,9 @@
 
 import logging
 import time
+import json
+
+from datetime import datetime
 
 from smbus2 import SMBus, i2c_msg  # https://pypi.org/project/smbus2/
 
@@ -66,7 +69,8 @@ REG_POWER = 0x03
 REG_CURRENT = 0x04
 REG_CALIBRATION = 0x05
 
-REG_CONFIG_VALUE_RUN = [REG_CONFIG, 0x4E, 0x3B]         # triggered
+REG_CONFIG_VALUE_RUN        = [REG_CONFIG, 0x4E, 0x39]         # triggered Current read - no bus voltage
+#REG_CONFIG_VALUE_RUN        = [REG_CONFIG, 0x4F, 0x3F]         # 
 REG_CONFIG_VALUE_POWER_DOWN = [REG_CONFIG, 0x4E, 0x38]  
 
 
@@ -91,14 +95,16 @@ class LINUX_TexasInstruments_INA226_4_20mA(Sensor):
     self.mqtt_client = mqtt_client
     self.logger = logging.getLogger(__name__)
 
+    self.first_read_after_startup = True
+    self.dictData = dict(value=f"0", day_delta="0")
 
+    #---------------------------------------------------
     self.bus = SMBus(self.i2c_channel)
     write = i2c_msg.write(self.i2c_address, REG_CONFIG_VALUE_POWER_DOWN)
     self.bus.i2c_rdwr(write)
-
     #self.read_i2c_all_registers()  # See all registers from the INA219 chipset
-
     self.bus.close()
+    #---------------------------------------------------
 
   def convert_voltage_data_to_unit(self, data):
     val = int.from_bytes(data, byteorder='big')
@@ -158,27 +164,39 @@ class LINUX_TexasInstruments_INA226_4_20mA(Sensor):
   def send_value_over_mqtt(self): 
     #print("Start convertion")
 
+
+
+    # ------------------------------------------------------------------------------
     self.bus = SMBus(self.i2c_channel)
     write = i2c_msg.write(self.i2c_address, REG_CONFIG_VALUE_RUN)
     self.bus.i2c_rdwr(write)
-    time.sleep(9)  # convertion time +/- 8.5 seconds, due to 1024x oversampling & 8.44ms sample time
+    time.sleep(9)  # convertion time +/- 8.5 seconds, due to 1024x oversampling 
     # ------------------------------------------------------------------------------
-    register = REG_SHUNT_VOLTAGE
-    read = self.read_i2c_value(register)
-    self.print_value(register,read) 
-    sensor_value = self.convert_current_data_to_unit(read)
+    read = self.read_i2c_value(REG_SHUNT_VOLTAGE)
+    self.print_value(REG_SHUNT_VOLTAGE,read) 
+    self.dictData['value'] = self.convert_current_data_to_unit(read)
+    # ------------------------------------------------------------------------------
+    #read = self.read_i2c_value(REG_BUS_VOLTAGE)
+    #self.print_value(REG_BUS_VOLTAGE,read) 
+    #self.dictData['bus_voltage']  = self.convert_voltage_data_to_unit(read)
+    # ------------------------------------------------------------------------------
+    if self.first_read_after_startup:
+      self.first_read_after_startup = False
+      self.value_day_d1 = self.dictData['value']
+      self.day_d1 = datetime.today().day
+      self.dictData['day_delta'] = 0
+    elif self.day_d1 != datetime.today().day:      
+      self.dictData['day_delta'] = self.dictData['value'] - self.value_day_d1  # start new day
+      self.value_day_d1 = self.dictData['value'] 
+      self.day_d1 = datetime.today().day
+    # ------------------------------------------------------------------------------
+    allDataJson = json.dumps(self.dictData)
     mqtt_dir = f"{self.mqtt_top_dir_name}/{self.mqtt_sub_dir}/{self.mqtt_function_name}" 
-    self.mqtt_client.publish(mqtt_dir, sensor_value)
-    self.logger.info(f"    MQTT: {mqtt_dir}  {sensor_value}") 
+    self.mqtt_client.publish(mqtt_dir, allDataJson)
+    self.logger.info(f"    MQTT: {mqtt_dir}  {allDataJson}") 
     # ------------------------------------------------------------------------------
-    register = REG_BUS_VOLTAGE
-    read = self.read_i2c_value(register)
-    #self.print_value(register,read) 
-    sensor_value = self.convert_voltage_data_to_unit(read)
-    mqtt_dir = f"{self.mqtt_top_dir_name}/{self.mqtt_sub_dir}/bus-voltage" 
-    self.mqtt_client.publish(mqtt_dir, sensor_value)
-    self.logger.info(f"    MQTT: {mqtt_dir}  {sensor_value}") 
-    # ------------------------------------------------------------------------------
+    #self.read_i2c_all_registers()
+    write = i2c_msg.write(self.i2c_address, REG_CONFIG_VALUE_POWER_DOWN)
     self.bus.close()
 
 
