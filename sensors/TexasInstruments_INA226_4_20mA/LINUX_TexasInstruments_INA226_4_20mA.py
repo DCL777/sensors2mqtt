@@ -163,14 +163,11 @@ class LINUX_TexasInstruments_INA226_4_20mA(Sensor):
 
   def send_value_over_mqtt(self): 
     #print("Start convertion")
-
-
-
     # ------------------------------------------------------------------------------
     self.bus = SMBus(self.i2c_channel)
     write = i2c_msg.write(self.i2c_address, REG_CONFIG_VALUE_RUN)
     self.bus.i2c_rdwr(write)
-    time.sleep(9)  # convertion time +/- 8.5 seconds, due to 1024x oversampling 
+    time.sleep(8.5)  # convertion time +/- 8.5 seconds, due to 1024x oversampling 
     # ------------------------------------------------------------------------------
     read = self.read_i2c_value(REG_SHUNT_VOLTAGE)
     self.print_value(REG_SHUNT_VOLTAGE,read) 
@@ -197,6 +194,7 @@ class LINUX_TexasInstruments_INA226_4_20mA(Sensor):
     # ------------------------------------------------------------------------------
     #self.read_i2c_all_registers()
     write = i2c_msg.write(self.i2c_address, REG_CONFIG_VALUE_POWER_DOWN)
+    self.bus.i2c_rdwr(write)
     self.bus.close()
 
 

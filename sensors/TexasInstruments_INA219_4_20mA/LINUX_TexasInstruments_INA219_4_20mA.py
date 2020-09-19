@@ -101,6 +101,9 @@ class LINUX_TexasInstruments_INA219_4_20mA(Sensor):
     write = i2c_msg.write(self.i2c_address, REG_CONFIG_VALUE_POWER_DOWN)
     self.bus.i2c_rdwr(write)
     #self.read_i2c_all_registers()  # See all registers from the INA219 chipset
+    write = i2c_msg.write(self.i2c_address, REG_CONFIG_VALUE_RUN)
+    self.bus.i2c_rdwr(write)
+    time.sleep(0.5)
     self.bus.close()
     #---------------------------------------------------
 
@@ -165,7 +168,7 @@ class LINUX_TexasInstruments_INA219_4_20mA(Sensor):
     self.bus = SMBus(self.i2c_channel)
     write = i2c_msg.write(self.i2c_address, REG_CONFIG_VALUE_RUN)
     self.bus.i2c_rdwr(write)
-    time.sleep(0.3)  # convertion time +/- 8.5 seconds, due to 1024x oversampling & 8.44ms sample time
+    time.sleep(0.5)  # convertion time +/- 8.5 seconds, due to 1024x oversampling & 8.44ms sample time
     # ------------------------------------------------------------------------------
     read = self.read_i2c_value(REG_SHUNT_VOLTAGE)
     self.print_value(REG_SHUNT_VOLTAGE,read) 
@@ -192,6 +195,7 @@ class LINUX_TexasInstruments_INA219_4_20mA(Sensor):
     # ------------------------------------------------------------------------------
     #self.read_i2c_all_registers()
     write = i2c_msg.write(self.i2c_address, REG_CONFIG_VALUE_POWER_DOWN)
+    self.bus.i2c_rdwr(write)
     self.bus.close()
 
   def activate_100s_action(self):
@@ -200,29 +204,3 @@ class LINUX_TexasInstruments_INA219_4_20mA(Sensor):
   def on_exit(self):
     pass
 
-#class LINUX_TexasInstruments_INA219_4_20mA(Sensor):
-#  
-#
-#  def __init__(self, mqtt_client, config):    
-#    super().__init__("LINUX","TexasInstruments", "INA219 4-20mA", "Current","I2C" ,mqtt_client, config)
-#    
-#    self.mySensorList = []
-#    
-#    #print(f'{self.parameters}')
-#
-#    for sensor in self.parameters: 
-#      self.mySensorList.append(my_ti_ina219_sensor(mqtt_client,sensor) )
-#
-#      
-#  def send_value_over_mqtt(self,mqtt_top_dir_name): 
-#
-#    #print("in INA TOP")
-#    for x in self.mySensorList:
-#      x.send_value_over_mqtt(mqtt_top_dir_name)
-#
-##  
-#  def activate_100s_action(self):
-#    pass
-#  
-#  def on_exit(self):
-#    pass
