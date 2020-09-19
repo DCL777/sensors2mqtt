@@ -80,6 +80,13 @@ or execute the commands manually:
 => chmod 777 ./sensors2mqtt.py
 => ./sensors2mqtt.py
 ```
+
+## Update
+```
+=> cd sensors2mqtt
+=> git pull -v --progress "origin"
+```
+
 ## Use with home-assistant
 Update your sensors section in configuration.yml with the new mqtt topics, for example:
 ```
