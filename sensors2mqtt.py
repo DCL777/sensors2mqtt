@@ -71,6 +71,15 @@ class sensors2mqtt():
       print("  -> wrong PASSWORD in your YAML file")
       print("  -> is the MQTT server up and running?\n\n")
       sys.exit()
+  
+  def send_update(self, event):
+    logging.info(f"EVENT = {event}")
+    for x in self.mySensorList:
+      try:
+        if (int(x.get_update_interval()) <= int(event)):
+          x.send_value_over_mqtt()
+      except Exception as e:
+        logging.error("\n\n\n" + traceback.format_exc() + "\n" )  
 
   def run (self):
 
@@ -96,7 +105,7 @@ class sensors2mqtt():
     mqtt_top_dir_name = config_mqtt['top_dir_name']
   
 
-    mySensorList = []
+    self.mySensorList = []
     config_sensors = config_yaml['Sensors']
 
     logger.debug(f"Loading modules:")
@@ -115,21 +124,26 @@ class sensors2mqtt():
         logger.debug(f"    --> CLASS: {class_to_load}")
         aClass = getattr(module, f"{aSensor['platform']}_{aSensorClass}")
         myClass = aClass(client,aSensor,mqtt_top_dir_name)
-        mySensorList.append(myClass)
+        self.mySensorList.append(myClass)
 
   
     lowest_update_interval = 43200 # = 12h
+
+    
     
     print("\nSensors found")
     print("----------------------------------------------------------------------")
-    for x in mySensorList:
+    for x in self.mySensorList:
       x.printInfo()
       if x.get_update_interval() < lowest_update_interval:
         lowest_update_interval = x.get_update_interval()
       print("----------------------------------------------------------------------")
-    print(f"Lowest Update Interval: {lowest_update_interval}")
+    print(f"Lowest Update Interval: {lowest_update_interval} seconds")
 
     print("\n\n\nStarting main loop...")
+    self.send_update(43200)
+    time.sleep(int(10) - ((time.time()) % float(10)))
+
     while True:       
       try:
         event = 43200
@@ -155,7 +169,7 @@ class sensors2mqtt():
         #else: 
         #  logging.error("\n  ===========> event not in range (!) check" )   
 
-        logging.info(f"EVENT = {event}")
+        
 
 #        if ((time.time() %100.0 ) < 2):
 #            logger.debug(f"100 seconds event => write to file if changed {time.time()} =================================")
@@ -167,18 +181,19 @@ class sensors2mqtt():
 #        else:
 #            logger.debug(f"10 seconds event {time.time()} ----------------------------------------------------------")        
   
-     
-        for x in mySensorList:
-          try:
-            if (int(x.get_update_interval()) <= int(event)):
-              x.send_value_over_mqtt()
-          except Exception as e:
-            logging.error("\n\n\n" + traceback.format_exc() + "\n" )  
-  
+        self.send_update(event)
+
+        #for x in mySensorList:
+        #  try:
+        #    if (int(x.get_update_interval()) <= int(event)):
+        #      x.send_value_over_mqtt()
+        #  except Exception as e:
+        #    logging.error("\n\n\n" + traceback.format_exc() + "\n" )  
+  #
         time.sleep(int(lowest_update_interval) - ((time.time()) % float(lowest_update_interval)))
       except KeyboardInterrupt:
         print ('\ncaught keyboard interrupt!, bye')
-        for x in mySensorList:
+        for x in self.mySensorList:
           x.on_exit()
         sys.exit()
 
