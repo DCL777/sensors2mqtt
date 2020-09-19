@@ -96,16 +96,16 @@ class LINUX_TexasInstruments_INA219_4_20mA(Sensor):
     self.first_read_after_startup = True
     self.dictData = dict(value=f"0", bus_voltage=f"0", day_delta="0")
 
-    #---------------------------------------------------
-    self.bus = SMBus(self.i2c_channel)
-    write = i2c_msg.write(self.i2c_address, REG_CONFIG_VALUE_POWER_DOWN)
-    self.bus.i2c_rdwr(write)
-    #self.read_i2c_all_registers()  # See all registers from the INA219 chipset
-    write = i2c_msg.write(self.i2c_address, REG_CONFIG_VALUE_RUN)
-    self.bus.i2c_rdwr(write)
-    time.sleep(0.5)
-    self.bus.close()
-    #---------------------------------------------------
+    ##---------------------------------------------------
+    #self.bus = SMBus(self.i2c_channel)
+    #write = i2c_msg.write(self.i2c_address, REG_CONFIG_VALUE_POWER_DOWN)
+    #self.bus.i2c_rdwr(write)
+    ##self.read_i2c_all_registers()  # See all registers from the INA219 chipset
+    #write = i2c_msg.write(self.i2c_address, REG_CONFIG_VALUE_RUN)
+    #self.bus.i2c_rdwr(write)
+    #time.sleep(0.5)
+    #self.bus.close()
+    ##---------------------------------------------------
 
   def convert_voltage_data_to_unit(self, data):
     val = int.from_bytes(data, byteorder='big')
@@ -194,8 +194,8 @@ class LINUX_TexasInstruments_INA219_4_20mA(Sensor):
     self.logger.info(f"    MQTT: {mqtt_dir}  {allDataJson}") 
     # ------------------------------------------------------------------------------
     #self.read_i2c_all_registers()
-    write = i2c_msg.write(self.i2c_address, REG_CONFIG_VALUE_POWER_DOWN)
-    self.bus.i2c_rdwr(write)
+    #write = i2c_msg.write(self.i2c_address, REG_CONFIG_VALUE_POWER_DOWN)
+    #self.bus.i2c_rdwr(write)
     self.bus.close()
 
   def activate_100s_action(self):
