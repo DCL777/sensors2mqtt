@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/python3 
  
 #  This file is part of the sensors2mqtt distribution (https://github.com/DCL777/sensors2mqtt.git).
 #  Copyright (c) 2020 Dries Claerbout 
