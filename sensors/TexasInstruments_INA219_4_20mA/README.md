@@ -122,3 +122,7 @@ sensor:
 ![screenshot](HA_INA219_02.PNG?raw=true)
 
 
+# Using InfluxDB & Grafana within Home Assistant 
+
+![screenshot](grafana.png?raw=true)
+
