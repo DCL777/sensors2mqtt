@@ -1,5 +1,13 @@
 # Sensor Description
-TODO
+This is a pulse counter for slow pulses (< 5Hz) only. Since the OS is linux, fast transition will not be captured.  
+
+If higher frequency is required, there are some sollutions
+  - using a microcontroller (MCU) (like PIC12F-series from microchip, atMega from Atmell, ...). Disadvantage is that it needs to be programmed.
+  - using a I²C RTC with an event counter option like 
+    - https://www.nxp.com/docs/en/data-sheet/PCF8583.pdf
+    - https://datasheets.maximintegrated.com/en/ds/DS1678.pdf 
+    - https://datasheets.maximintegrated.com/en/ds/DS1682.pdf 
+
 
 interface: RPi.GPIO
 
