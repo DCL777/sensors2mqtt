@@ -125,3 +125,4 @@ sensor:
 # Using InfluxDB & Grafana within Home Assistant 
 
 ![screenshot](grafana.png?raw=true)
+![screenshot](grafana_dashboard.png?raw=true)
