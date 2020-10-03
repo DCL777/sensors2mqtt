@@ -170,26 +170,10 @@ class sensors2mqtt():
         #  logging.error("\n  ===========> event not in range (!) check" )   
 
         
-
-#        if ((time.time() %100.0 ) < 2):
-#            logger.debug(f"100 seconds event => write to file if changed {time.time()} =================================")
-#            for x in mySensorList:
-#              try:
-#                x.activate_100s_action()  
-#              except Exception as e:
-#                logging.error("\n\n\n" + traceback.format_exc() + "\n" )         
-#        else:
-#            logger.debug(f"10 seconds event {time.time()} ----------------------------------------------------------")        
+       
   
         self.send_update(event)
 
-        #for x in mySensorList:
-        #  try:
-        #    if (int(x.get_update_interval()) <= int(event)):
-        #      x.send_value_over_mqtt()
-        #  except Exception as e:
-        #    logging.error("\n\n\n" + traceback.format_exc() + "\n" )  
-  #
         time.sleep(int(lowest_update_interval) - ((time.time()) % float(lowest_update_interval)))
       except KeyboardInterrupt:
         print ('\ncaught keyboard interrupt!, bye')

@@ -64,7 +64,7 @@ class RPI_Generic_PulseCounter(Sensor):
     if path.isfile(self.json_file):  # check if it exists
       self.read_from_file()
     else:  # initialize when no file was found to int(0)
-      self.dictData = dict(delta=f"0", total=f"0", day="0",month="0",year="0", all="0")
+      self.dictData = dict(delta=f"0", total=f"0", day="0",week="0",month="0",year="0")
       self.total_d1 = 0
       self.save_to_file()
 
@@ -83,47 +83,33 @@ class RPI_Generic_PulseCounter(Sensor):
 
       self.dictData['delta'] = float(self.dictData['total']) - float(self.total_d1)
       self.total_d1 = self.dictData['total']  # save last value
-
-      # day     delta_steps_one_day   = one day increments with  delta
-      # month   day_steps_one_month   = one week increments with total day 
-      # removed # year wsoy  week_steps_one_year   = one month increments with total day
-      # year    month_steps_one_year  = one year increments with a total month value
-      # all     year_steps            = one year increments with a total month value
         
       #------------------------------------------------------------------------
       if self.year_d1 != datetime.today().year:
-        self.dictData['all'] = float(self.dictData['all']) + float(self.dictData['year'])
-        self.dictData['year'] = self.dictData['month'] # start new month
-        self.month_d1 = datetime.today().month
-      else:
-        if self.month_d1 != datetime.today().month: 
-          self.dictData['year'] = float(self.dictData['year']) + float(self.dictData['month'])
+        self.dictData['year'] = self.dictData['total'] 
+        self.year_d1 = datetime.today().year
       #------------------------------------------------------------------------
       if self.month_d1 != datetime.today().month: 
-        self.dictData['month'] = self.dictData['day'] # start new day
-        self.day_d1 = datetime.today().day
-      else:
-        if self.day_d1 != datetime.today().day:
-          self.dictData['month'] = float(self.dictData['month']) + float(self.dictData['day'])
+        self.dictData['month'] = self.dictData['total'] 
+        self.month_d1 = datetime.today().month
       #------------------------------------------------------------------------
       if self.day_d1 != datetime.today().day:
-        self.dictData['day'] = self.dictData['delta']  # start new day
+        self.dictData['day'] = self.dictData['total'] 
         self.day_d1 = datetime.today().day
-      else:
-        self.dictData['day'] = float(self.dictData['day']) + float(int(self.dictData['delta'] ))
       #------------------------------------------------------------------------
-      #if self.week_d1 != datetime.today().isocalendar()[1]:
-      #  self.dictData['owi'] = self.dictData['delta'] # start new week
-      #  self.week_d1 = datetime.today().isocalendar()[1]
-      #else:
-      #  self.dictData['owi'] = int(self.dictData['owi']) + int(self.dictData['delta'])
+      if self.week_d1 != datetime.today().isocalendar()[1]:
+        self.dictData['week'] = self.dictData['total'] 
+        self.week_d1 = datetime.today().isocalendar()[1]
       #------------------------------------------------------------------------
-
 
       
       self.dictDataScaled =  {}
-      for key in self.dictData:
-        self.dictDataScaled[key] = round(float(self.dictData[key]) * self.counterScale,1)
+      self.dictDataScaled['delta'] = round(float(self.dictData['delta']) * self.counterScale,1)
+      self.dictDataScaled['total'] = round(float(self.dictData['total']) * self.counterScale,1)
+      self.dictDataScaled['day']   = round((float(self.dictData['total']) - float(self.dictData['day']))   * self.counterScale,1)
+      self.dictDataScaled['week']  = round((float(self.dictData['total']) - float(self.dictData['week']))  * self.counterScale,1)
+      self.dictDataScaled['month'] = round((float(self.dictData['total']) - float(self.dictData['month'])) * self.counterScale,1)
+      self.dictDataScaled['year']  = round((float(self.dictData['total']) - float(self.dictData['year']))  * self.counterScale,1)
 
 
       allDataJson = json.dumps(self.dictDataScaled)
@@ -151,10 +137,6 @@ class RPI_Generic_PulseCounter(Sensor):
       self.total_d1 = self.dictData['total']
 
  
-  def activate_100s_action(self):
-    #print("100 seconds => write to file if changed")
-    #self.save_to_file()
-    return
   
   def on_exit(self):
     self.save_to_file() 

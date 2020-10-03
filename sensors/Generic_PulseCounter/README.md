@@ -12,8 +12,12 @@ If higher frequency is required, there are some sollutions
 interface: RPi.GPIO
 
 ## Setup on Raspberry pi 
-  - Nothing special
-
+  - after the first start, a file will be generated: pin_['pin number'].json
+  ```
+  \sensors2mqtt\sensors\Generic_PulseCounter\pin_17.json
+  ```
+  Edit this file to set the iniatial value of the counter.
+  To start, the value's 'total', 'day', 'week', 'year' must be set to the same value.  The value of your official gas/water meter for example.
 
 ## Use with home-assistant
 Update your sensors section in configuration.yml with the new mqtt topics, for example:

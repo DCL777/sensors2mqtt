@@ -51,8 +51,6 @@ class LINUX_Maximintegrated_DS18B20(Sensor):
       self.mqtt_client.publish(friendly_name, sensor_value)
       self.logger.info(f"    MQTT: {friendly_name}  {sensor_value}")    
   
-  def activate_100s_action(self):
-    pass
   
   def on_exit(self):
     pass

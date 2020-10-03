@@ -57,8 +57,7 @@ class Sensor:
   
   def send_value_over_mqtt(self,mqtt_top_dir_name):
     pass
-  def activate_100s_action(self):
-    pass
+
   def on_exit(self):
     pass
 

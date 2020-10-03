@@ -198,8 +198,7 @@ class LINUX_TexasInstruments_INA219_4_20mA(Sensor):
     #self.bus.i2c_rdwr(write)
     self.bus.close()
 
-  def activate_100s_action(self):
-    pass
+
   
   def on_exit(self):
     pass
