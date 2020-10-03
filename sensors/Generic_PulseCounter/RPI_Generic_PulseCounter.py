@@ -57,6 +57,7 @@ class RPI_Generic_PulseCounter(Sensor):
     self.week_d1 = datetime.today().isocalendar()[1]
     self.month_d1 = datetime.today().month
     self.year_d1 = datetime.today().year
+    
 
     self.json_file = f"{self.ownDir}pin_{self.sensor_pin}.json"     
     #print(f"json_file:   {self.json_file}")
@@ -70,19 +71,47 @@ class RPI_Generic_PulseCounter(Sensor):
 
     #print(f"loaded data: {self.dictData}")
 
-    GPIO.setmode(GPIO.BCM)
-    GPIO.setup(self.sensor_pin, GPIO.IN, pull_up_down = GPIO.PUD_UP)      
-    GPIO.add_event_detect(self.sensor_pin, GPIO.FALLING, callback=self.countPulse)
+    GPIO.setmode(GPIO.BCM)  # SysGPIO better ?????
+    GPIO.setup(self.sensor_pin, GPIO.IN, pull_up_down = GPIO.PUD_DOWN)      
+    GPIO.add_event_detect(self.sensor_pin, GPIO.BOTH, callback=self.countPulse, bouncetime=10)
+    self.pin_d1 = GPIO.input(self.sensor_pin)
+
+    #if self.logger.level == logging.DEBUG: 
+    #  print (f"This module works in DEBUG MODE {self.logger.level}")
+    #else:
+    #  print (f"This module works in NORMAL MODE {self.logger.level}")
 
 
-  def countPulse(self,channel):    
-    self.dictData['total'] = float(self.dictData['total']) + self.pulseScale
-    self.logger.debug(f'CHANNEL:  {channel}  \t  {self.dictData} ' ) 
+  def countPulse(self,channel):        
+
+    if GPIO.input(self.sensor_pin) != self.pin_d1: 
+      self.dictData['total'] = float(self.dictData['total']) + self.pulseScale
+    self.pin_d1 = GPIO.input(self.sensor_pin)
+
+    #if GPIO.input(self.sensor_pin):     
+    #  if self.pin_d1:
+    #    print (f"Rising edge detected on {self.sensor_pin}  WRONG EVENT !!!!! " )
+    #  else:
+    #    print (f"Rising edge detected on {self.sensor_pin} ") 
+    #else:                  
+    #  if self.pin_d1:
+    #    print (f"Falling edge detected on {self.sensor_pin}") 
+    #  else:
+    #    print (f"Falling edge detected on {self.sensor_pin}  WRONG EVENT !!!!! ")    
+    #self.updateDictDataScaled()
+    #self.logger.debug(f'CHANNEL:  {channel}  \t  {self.dictDataScaled} ' ) 
+
+  def updateDictDataScaled(self):
+      self.dictData['delta'] = float(self.dictData['total']) - float(self.total_d1)
+      self.dictDataScaled =  {}
+      self.dictDataScaled['delta'] = round(float(self.dictData['delta']) * self.counterScale,1)
+      self.dictDataScaled['total'] = round(float(self.dictData['total']) * self.counterScale,1)
+      self.dictDataScaled['day']   = round((float(self.dictData['total']) - float(self.dictData['day']))   * self.counterScale,1)
+      self.dictDataScaled['week']  = round((float(self.dictData['total']) - float(self.dictData['week']))  * self.counterScale,1)
+      self.dictDataScaled['month'] = round((float(self.dictData['total']) - float(self.dictData['month'])) * self.counterScale,1)
+      self.dictDataScaled['year']  = round((float(self.dictData['total']) - float(self.dictData['year']))  * self.counterScale,1)
 
   def send_value_over_mqtt(self): 
-
-      self.dictData['delta'] = float(self.dictData['total']) - float(self.total_d1)
-      self.total_d1 = self.dictData['total']  # save last value
         
       #------------------------------------------------------------------------
       if self.year_d1 != datetime.today().year:
@@ -100,17 +129,10 @@ class RPI_Generic_PulseCounter(Sensor):
       if self.week_d1 != datetime.today().isocalendar()[1]:
         self.dictData['week'] = self.dictData['total'] 
         self.week_d1 = datetime.today().isocalendar()[1]
-      #------------------------------------------------------------------------
-
-      
-      self.dictDataScaled =  {}
-      self.dictDataScaled['delta'] = round(float(self.dictData['delta']) * self.counterScale,1)
-      self.dictDataScaled['total'] = round(float(self.dictData['total']) * self.counterScale,1)
-      self.dictDataScaled['day']   = round((float(self.dictData['total']) - float(self.dictData['day']))   * self.counterScale,1)
-      self.dictDataScaled['week']  = round((float(self.dictData['total']) - float(self.dictData['week']))  * self.counterScale,1)
-      self.dictDataScaled['month'] = round((float(self.dictData['total']) - float(self.dictData['month'])) * self.counterScale,1)
-      self.dictDataScaled['year']  = round((float(self.dictData['total']) - float(self.dictData['year']))  * self.counterScale,1)
-
+      #------------------------------------------------------------------------    
+      self.updateDictDataScaled()
+      self.total_d1 = self.dictData['total']  # save last value
+      #------------------------------------------------------------------------ 
 
       allDataJson = json.dumps(self.dictDataScaled)
       friendly_name = f"{self.mqtt_top_dir_name}/{self.sensorParameters['mqtt_sub_dir']}/{self.sensorParameters['function']}"

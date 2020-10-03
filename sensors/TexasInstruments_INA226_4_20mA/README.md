@@ -1,3 +1,5 @@
+Status: finalized - working as expected
+
 # Sensor Description
 
 INA226 High-Side or Low-Side Measurement, Bi-Directional Current and Power Monitor with I2C Compatible Interface

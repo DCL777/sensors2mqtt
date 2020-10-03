@@ -1,5 +1,9 @@
+Status: under development - Validating the counter to the official city gas counter
+
 # Sensor Description
-This is a pulse counter for slow pulses (< 5Hz) only. Since the OS is linux, fast transition will not be captured.  
+Event counter counts every rising and falling edge.  Debounced at 10ms.  If linux is fast enough to process the pulses, 50Hz pulses can be captured.
+ 
+This is a pulse counter for slow pulses (< 10Hz) only. Since the OS is linux, fast transition will not be captured.  When there is a lot of CPU load by other processes, pulses can be missed.
 
 If higher frequency is required, there are some sollutions
   - using a microcontroller (MCU) (like PIC12F-series from microchip, atMega from Atmell, ...). Disadvantage is that it needs to be programmed.

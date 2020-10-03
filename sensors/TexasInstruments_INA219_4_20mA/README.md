@@ -1,3 +1,5 @@
+Status: finalized - working as expected - INA226 is a little bit more stable due to a longer sampling time and a higher oversampling.  But INA219 will do the job very fine.
+
 # Sensor Description
 
 INA219 Zerø-Drift, Bidirectional Current/Power Monitor With I2C Interface
