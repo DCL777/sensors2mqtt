@@ -116,4 +116,6 @@ sensor:
 # Hardware setup:
 ![screenshot](../../docs/images/hw.png?raw=true)
 
-
+# Used Applications
+ - Application 01: City water meter: [a relative link](App_01_Water_Meter/README.md)
+ - Application 02: Gas meter: [a relative link](App_02_Gas_Meter/README.md)

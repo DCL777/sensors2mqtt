@@ -47,7 +47,7 @@ Configure your rapsberry pi where the sensors are attachted:
 - download the latest version of 'Raspberry Pi OS (32-bit) Lite' here: https://www.raspberrypi.org/downloads/raspberry-pi-os/
 - enable SSH by adding a file named 'SSH' into the boot location
 - if 1-wire is required (for DS18B20)
-  - enable one-wire in config.txt (on your SD-Card) => with the correct pin number
+  - enable one-wire in config.txt (on your SD-Card) => with the correct pin number  (or in linux: ```sudo nano /boot/config.txt```)
   - ```dtoverlay=w1-gpio,gpiopin=22```
 - If I2C is needed:
   - enable I2C in config.txt (on your SD-Card)
