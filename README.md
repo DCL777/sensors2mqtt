@@ -212,7 +212,19 @@ or
 ps aux | grep sensor
 ```
 
+# Change RPI fixed IP-address
 
+```
+sudo nano /etc/dhcpcd.conf
+```
+
+look for the following section and change it:
+```
+interface eth0
+static ip_address=192.168.1.12/24
+static routers=192.168.1.1
+static domain_name_servers=192.168.1.1
+```
 
 # Special thanks to 
 - https://pypi.org/project/smbus2/
