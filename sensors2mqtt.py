@@ -30,8 +30,11 @@ import logging
 import importlib
 import argparse
 import traceback
+import platform
+
 
 from Sensor import Sensor
+from Sensor import BColors
 
 
 __version__ = "0.0.1"
@@ -40,6 +43,8 @@ __author__ = "Dries Claerbout"
 __license__ = "AGPL-3.0+"
 __status__ = "Debug" #"Production"
 __name__ = "sensor2MQTT"
+
+
 
 class sensors2mqtt():
 
@@ -65,7 +70,7 @@ class sensors2mqtt():
       client.loop_start()    
       return client
     except:
-      print("Unable to start MQTT Client.  Did you add the correct PASSWORD in your YAML file?\n")
+      print(f"{BColors.FAIL}Unable to start MQTT Client. {BColors.ENDC} Did you add the correct PASSWORD in your YAML file?\n")
       print("Possible reasons:")
       print("  -> wrong IP ADDRESS in your YAML file")
       print("  -> wrong PASSWORD in your YAML file")
@@ -94,22 +99,29 @@ class sensors2mqtt():
     logger = logging.getLogger(__name__)
 
   
-    print("============================")
+    print(f"{BColors.HEADER}============================")
     print(f"Start Sensors to MQTT V{__version__}             {__date__} {__author__}")
-    print("============================")
+    print(f"============================{BColors.ENDC}")
   
     config_yaml = self.loadConfig(self.config)
     config_mqtt = config_yaml['mqtt']
     client = self.initMQTT(config_mqtt)
   
     mqtt_top_dir_name = config_mqtt['top_dir_name']
-  
+
 
     self.mySensorList = []
     config_sensors = config_yaml['Sensors']
 
     logger.debug(f"Loading modules:")
     logger.debug(f"================")
+
+    if config_sensors is None:
+      print(f"\n{BColors.FAIL}No Sensors configured in the settings-file: {self.config}{BColors.ENDC}")
+      print(f"\nNothing to do, so this program will be stopped\n")
+      exit()
+
+
     # load only the sensors needed
     for aSensorClass in config_sensors:
       #print(f"aSensorClass =  {aSensorClass}")

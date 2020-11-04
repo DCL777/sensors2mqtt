@@ -5,4 +5,4 @@ paho-mqtt
 urllib3
 pyyaml
 smbus2
-
+psutil

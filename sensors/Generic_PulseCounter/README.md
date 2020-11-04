@@ -1,4 +1,4 @@
-Status: under development - Validating the counter to the official city gas counter
+Status: in Production
 
 # Sensor Description
 Event counter counts every rising and falling edge.  Debounced at 10ms.  If linux is fast enough to process the pulses, 50Hz pulses can be captured.

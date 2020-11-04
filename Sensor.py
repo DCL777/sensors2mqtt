@@ -20,6 +20,17 @@ import logging
 import os.path
 from os import path
 
+class BColors:
+    HEADER = '\033[95m'
+    OKBLUE = '\033[94m'
+    OKCYAN = '\033[96m'
+    OKGREEN = '\033[92m'
+    WARNING = '\033[93m'
+    FAIL = '\033[91m'
+    ENDC = '\033[0m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
+
 class Sensor:
   def __init__(self, supported_system, manufacturer, sensorName, function,protocol,mqtt_client, parameters):
     self.supported_system = supported_system
@@ -42,7 +53,7 @@ class Sensor:
 
 
   def printInfo(self):
-    print(f" -> {self.sensorName} \t {self.manufacturer} \t {self.function} \t {self.protocol} \t {self.supported_system}")
+    print(f"{BColors.OKCYAN} -> {self.sensorName} \t {self.manufacturer} \t {self.function} \t {self.protocol} \t {self.supported_system}{BColors.ENDC}")
     #self.count = 0
     #for a_sensor in self.parameters:
     #  self.count = self.count +1
