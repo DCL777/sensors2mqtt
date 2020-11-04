@@ -1,4 +1,4 @@
-Status: under development - Validating the counter to the official city gas counter
+Status: under development
 
 # Sensor Description
 This sensor will send the host system information.
@@ -9,9 +9,9 @@ This sensor will send the host system information.
 
 There are 2 different JSON messages:
  - Static: with all static data
- ![screenshot](static.PNG?raw=true)
+![screenshot](static.PNG?raw=true)
  - Dynamic: with all changing info
- ![screenshot](dynamic.PNG?raw=true)
+![screenshot](dynamic.PNG?raw=true)
  
 
 ## Setup on Raspberry pi 
