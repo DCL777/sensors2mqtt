@@ -9,13 +9,13 @@ This sensor will send the host system information.
 
 There are 2 different JSON messages:
  - Static: with all static data
- ![screenshot](static.png?raw=true)
+ ![screenshot](static.PNG?raw=true)
  - Dynamic: with all changing info
- ![screenshot](dynamic.png?raw=true)
+ ![screenshot](dynamic.PNG?raw=true)
  
 
 ## Setup on Raspberry pi 
-  see:[example_settings.yaml](example_settings.yaml)
+  see: [example_settings.yaml](example_settings.yaml)
   
 ## Use with home-assistant
 Update your sensors section in configuration.yml with the new mqtt topics, for example:
