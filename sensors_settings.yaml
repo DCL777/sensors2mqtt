@@ -40,6 +40,14 @@ Sensors:
     calibration_high_mA: 20.0    # 20mA
     full_range_value:  5000      # 5 mm = 20mA         0m = 4mA
     unit: mm                     # meter  
+  Generic_SystemInfo:
+  - platform: LINUX
+    update_interval: 10     # seconds  10,30,60, 300 (5min) , 900 (15min), 3600 (1h) , 10800 (3h), 21600 (6h) , 43200 (12h)
+    mqtt_sub_dir: system_info   # used for the MQTT sub-directory
+    send_platform_info: Yes # No
+    send_memory_info: Yes   # No
+    send_cpu_info: Yes      # No
+    send_disk_info: Yes     # No
 
 
 

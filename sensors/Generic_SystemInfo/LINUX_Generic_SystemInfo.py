@@ -63,6 +63,8 @@ class LINUX_Generic_SystemInfo(Sensor):
       self.dictDataStatic['Python_Version'] = platform.python_version()
       self.dictDataStatic['Node_Name']      = my_system.node
   
+  def send_static_data_over_mqtt(self): 
+    if self.send_platform:
       allDataJson = json.dumps(self.dictDataStatic)
       friendly_name = f"{self.mqtt_top_dir_name}/{self.sensorParameters['mqtt_sub_dir']}/static"
       self.mqtt_client.publish(friendly_name, allDataJson)
@@ -110,6 +112,9 @@ class LINUX_Generic_SystemInfo(Sensor):
     friendly_name = f"{self.mqtt_top_dir_name}/{self.sensorParameters['mqtt_sub_dir']}/dynamic"
     self.mqtt_client.publish(friendly_name, allDataJson)
     self.logger.info(f"    MQTT: {friendly_name}  {allDataJson}")
+    
+    
+    self.send_static_data_over_mqtt()
 
 
   def on_exit(self):

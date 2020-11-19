@@ -7,6 +7,7 @@ Supported sensors at the moment:
 - Maximintegrated_DS18B20 temperature sensor
 - Generic_PulseCounter
   - as a water-flow sensor
+  - as gas meter counter
   - fully configurable for your application / sensor
 - TexasInstruments_INA219_4_20mA 
   - as citern water height sensor. With a 'Submersible Water Level Transducer Sensor' 0-5m H2O  
@@ -16,6 +17,12 @@ Supported sensors at the moment:
   - as citern water height sensor. With a 'Submersible Water Level Transducer Sensor' 0-5m H2O  
   - fully configurable for your application
   - full range = 80mV, any current can be measured when the shunt resistor changes (not limited to 4-20mA)
+- Generic_SystemInfo
+  This sensor will send the following host system information:
+   - Platform information (static)
+   - CPU usage (dynamic)
+   - Memory usage (dynamic)
+   - Disk usage (dynamic) 
 
 ## How to add more sensors? 
 - copy and rename an existing sensor
