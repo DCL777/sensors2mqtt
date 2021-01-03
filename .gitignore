@@ -128,3 +128,6 @@ dmypy.json
 # Pyre type checker
 .pyre/
 /settings.yaml
+/settings-backup
+/settings-backup.yaml
+/sensors/Generic_PulseCounter/pin_17.json

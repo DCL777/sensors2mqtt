@@ -1,0 +1,30 @@
+#!/bin/bash -e
+
+if [ -d settings-backup ]; then
+   echo "ERROR: Backup directory exists. May be previous restoring was failed?"
+   echo "1. Save 'settings-backup' dir and 'settings.yaml' to safe location to make possibility to restore config later."
+   echo "2. Manually delete 'settings-backup' dir and try again."
+   exit 1
+fi
+
+echo "Stopping sensors2mqtt..."
+sudo systemctl stop sensors2mqtt
+
+echo "Creating backup of configuration..."
+cp -R settings.yaml settings-backup.yaml
+
+echo "Updating..."
+git checkout HEAD
+git pull
+
+echo "Installing dependencies..."
+sudo pip3 install -r requirements.txt
+
+echo "Restore configuration..."
+cp settings-backup.yaml settings.yaml
+#rm -rf settings-backup
+
+echo "Starting sensors2mqtt..."
+sudo systemctl start sensors2mqtt
+
+echo "Done!"

@@ -6,3 +6,4 @@ urllib3
 pyyaml
 smbus2
 psutil
+plantower

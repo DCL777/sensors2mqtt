@@ -12,7 +12,7 @@ Sensors:
   - path: /sys/bus/w1/devices/28-01193a05774d/w1_slave
     platform: LINUX
     update_interval: 10 # seconds  10,30,60, 300 (5min) , 900 (15min), 3600 (1h) , 10800 (3h), 21600 (6h) , 43200 (12h)
-    friendly: Outside
+    mqtt_sub_dir: Outside
   Generic_PulseCounter:
   - pin_number: 23
     platform: RPI
@@ -48,6 +48,17 @@ Sensors:
     send_memory_info: Yes   # No
     send_cpu_info: Yes      # No
     send_disk_info: Yes     # No
+  Plantower_PMS5003:
+  - platform: LINUX
+    update_interval: 10     # seconds  10,30,60, 300 (5min) , 900 (15min), 3600 (1h) , 10800 (3h), 21600 (6h) , 43200 (12h)
+    mqtt_sub_dir: Ventialation   # used for the MQTT sub-directory
+    function: particles 
+    serial_port: '/dev/ttyAMA0' # Serial port to use 
+          # select the correct UART PORT:
+              # raspi2: /dev/ttyAMA0
+              # Built-in (standard) Serial Port: the Linux standard is /dev/ttyS0, /dev/ttyS1, and so on
+              # USB Serial Port Adapter: /dev/ttyUSB0, /dev/ttyUSB1, and so on.
+              # Some types of USB serial adapter may appear as /dev/ttyACM0 
 
 
 

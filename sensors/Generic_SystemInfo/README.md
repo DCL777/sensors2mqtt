@@ -1,4 +1,4 @@
-Status: under development
+Status: finalized - working as expected
 
 # Sensor Description
 This sensor will send the host system information.

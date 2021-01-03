@@ -23,6 +23,17 @@ Supported sensors at the moment:
    - CPU usage (dynamic)
    - Memory usage (dynamic)
    - Disk usage (dynamic) 
+- Plantower_PMS5003
+  This is a Digital universal particle concentration sensor
+  Measures: 
+   - PM1.0, PM2.5 & PM10  value for CF=1，standard particle & under atmospheric environment
+   - The number of particles with diameter 
+      - beyond 0.3 um in 0.1 L of air.
+      - beyond 0.5 um in 0.1 L of air.
+      - beyond 1.0 um in 0.1 L of air.
+      - beyond 2.5 um in 0.1 L of air.
+      - beyond 5.0 um in 0.1 L of air.
+      - beyond 10  um in 0.1 L of air.
 
 ## How to add more sensors? 
 - copy and rename an existing sensor
@@ -42,10 +53,10 @@ Supported sensors at the moment:
 
 
 # Config your sensors & MQTT broker info
-- copy sensors_settings.yaml to the same directory with a differend name: example: ```my_sensor_data.yaml```
+- copy sensors_settings.yaml to the same directory with a differend name: example: ```settings.yaml```
 - Add or remove sensors in the new file.  Only sensors define here will be loaded at runtime
-- Start with argument: -c option: ```./sensors2mqtt.py -c my_sensor_data.yaml```
-- Start with argument: -l option: ```./sensors2mqtt.py -c my_sensor_data.yaml -l debug``` to get debug loggings
+- Start with argument: -c option: ```./sensors2mqtt.py -c settings.yaml```
+- Start with argument: -l option: ```./sensors2mqtt.py -c settings.yaml -l debug``` to get debug loggings
 
 
 # Setup
