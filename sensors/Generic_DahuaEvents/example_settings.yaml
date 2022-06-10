@@ -1,0 +1,19 @@
+mqtt:
+  broker: "192.168.1.100"
+  username: ha
+  password: [YOUR PASSWORD HERE]
+  top_dir_name: cameras  # used as MQTT top directory
+Sensors:
+  Generic_DahuaEvents:
+  - platform: LINUX
+    mqtt_sub_dir: nvr  # used for the MQTT sub-directory
+    update_interval: 3000 # not used at the moment 
+    cameras:
+      - host: 192.168.9.9
+        port: 80
+        user: [USERNAME HERE]
+        pass: [YOUR PASSWORD HERE]
+        events: CrossLineDetection    
+        mptt_topic: nvr_1  # STRING !!! not a number
+        ignore_ssl: False
+      
