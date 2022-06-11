@@ -177,6 +177,7 @@ class DahuaCamera:
         data = {}
         data["action"] = state["action"]
         data["Direction"] = state["data"]["Direction"]
+        data["UTC"] = state["data"]["UTC"]
         data["Name"] = state["data"]["Name"]
         data["ObjectType"] = state["data"]["Object"]["ObjectType"]        
         xValue = state["data"]["Object"]["BoundingBox"][2] - state["data"]["Object"]["BoundingBox"][0]
@@ -248,12 +249,16 @@ class DahuaCamera:
 
  #       for mptt_topic, payload in mqtt_data.items():
  #           mptt_topic = mptt_topic.strip("/")
+ #       mqtt_dir = f"{self.mqtt_top_dir_name}/{self.mqtt_sub_dir}/{mqtt_topic}"
+        index = state["index"]
+        code = state["code"]
         
+        mqtt_full_dir =  f"{self.mqtt_dir}/{index}/{code}"
 
-        self.logger.info(f"    MQTT: {self.mqtt_dir}  {json_data}")
+        self.logger.info(f"    MQTT: {mqtt_full_dir}  {json_data}")
  #       self.logger.info(f"    MQTT: {self.mqtt_dir}  {json_data}")
 
-        self.mqtt_client.publish(self.mqtt_dir, json_data)
+        self.mqtt_client.publish(mqtt_full_dir, json_data)
 
 
        # self.hass.log("[{0}] Publishing MQTT. topic={1}, payload={2}".format(self.camera["host"], topic, payload))

@@ -13,7 +13,7 @@ Sensors:
         port: 80
         user: [USERNAME HERE]
         pass: [YOUR PASSWORD HERE]
-        events: CrossLineDetection    
+        events: CrossLineDetection    # CrossLineDetection,VideoMotion,VideoBlind,VideoLoss,AlarmLocal
         mptt_topic: nvr_1  # STRING !!! not a number
         ignore_ssl: False
       
