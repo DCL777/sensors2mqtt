@@ -75,7 +75,11 @@ class LINUX_Generic_DahuaEvents(Sensor):
 
           self.logger.info(f"camera: {camera} \n")
           mqtt_topic   = camera['mptt_topic']
-          mqtt_dir = f"{self.mqtt_top_dir_name}/{self.mqtt_sub_dir}/{mqtt_topic}"
+          if not (self.mqtt_sub_dir and self.mqtt_sub_dir.strip()) or self.mqtt_sub_dir == f"null": # is blank
+       #   if self.mqtt_sub_dir == f"null" : # add area & object type
+             mqtt_dir = f"{self.mqtt_top_dir_name}/{mqtt_topic}"
+          else:
+             mqtt_dir = f"{self.mqtt_top_dir_name}/{self.mqtt_sub_dir}/{mqtt_topic}"
 
           dahuacam = DahuaCamera(camera, mqtt_client,mqtt_dir)
           self.cameras.append(dahuacam)
@@ -179,11 +183,16 @@ class DahuaCamera:
         data["Direction"] = state["data"]["Direction"]
         data["UTC"] = state["data"]["UTC"]
         data["Name"] = state["data"]["Name"]
-        data["ObjectType"] = state["data"]["Object"]["ObjectType"]        
-        xValue = state["data"]["Object"]["BoundingBox"][2] - state["data"]["Object"]["BoundingBox"][0]
-        yValue = state["data"]["Object"]["BoundingBox"][3] - state["data"]["Object"]["BoundingBox"][1]
-        xyValue = xValue * yValue
-        data["Area"] = xyValue / 1000
+
+        index = state["index"]
+        code = state["code"]
+
+        if code == f"CrossLineDetection": # add area & object type
+            data["ObjectType"] = state["data"]["Object"]["ObjectType"]        
+            xValue = state["data"]["Object"]["BoundingBox"][2] - state["data"]["Object"]["BoundingBox"][0]
+            yValue = state["data"]["Object"]["BoundingBox"][3] - state["data"]["Object"]["BoundingBox"][1]
+            xyValue = xValue * yValue
+            data["Area"] = xyValue / 1000
         
         # NOT WORKING if state["index"] in self.camera["channels"]:
         # NOT WORKING   data["Location"] = self.camera["channels"][state["index"]]
@@ -250,8 +259,6 @@ class DahuaCamera:
  #       for mptt_topic, payload in mqtt_data.items():
  #           mptt_topic = mptt_topic.strip("/")
  #       mqtt_dir = f"{self.mqtt_top_dir_name}/{self.mqtt_sub_dir}/{mqtt_topic}"
-        index = state["index"]
-        code = state["code"]
         
         mqtt_full_dir =  f"{self.mqtt_dir}/{index}/{code}"
 

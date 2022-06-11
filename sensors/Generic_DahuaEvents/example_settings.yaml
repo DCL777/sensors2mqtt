@@ -6,7 +6,7 @@ mqtt:
 Sensors:
   Generic_DahuaEvents:
   - platform: LINUX
-    mqtt_sub_dir: nvr  # used for the MQTT sub-directory
+    mqtt_sub_dir: null  # null is not used otherwise used for the MQTT sub-directory
     update_interval: 3000 # not used at the moment 
     cameras:
       - host: 192.168.9.9
