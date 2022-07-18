@@ -1,0 +1,20 @@
+mqtt:
+  broker: "192.168.1.100"
+  username: ha
+  password: [YOUR PASSWORD HERE]
+  top_dir_name: garage  # used as MQTT top directory
+Sensors:
+  Generic_Ultrasonic:  
+  - platform: RPI
+    echo_pin: 21
+    trigger_pin: 20
+    sample_size: 10  # amount of samples used for averaging: set to 1 if no averaging is wanted
+    trigger_pulse_time: 0.00001   # puls of 10 us
+    delay_between_measurements: 0.1  # 100 ms
+    output_scale_factor: 17150 # 34300 / 2   # Distance = 34300/2 * Time (unit cm) at sea level and 20C
+    output_round_decimal_point: 2 # Round to two decimal points
+    output_value_min: 2
+    output_value_max: 400
+    update_interval: 10 # seconds 10,30,60, 300 (5min) , 900 (15min), 3600 (1h) , 10800 (3h), 21600 (6h) , 43200 (12h)
+    mqtt_sub_dir:  ultrasonic
+    mqtt_function_name: height
