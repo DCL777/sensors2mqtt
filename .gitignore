@@ -131,3 +131,4 @@ dmypy.json
 /settings-backup
 /settings-backup.yaml
 /sensors/Generic_PulseCounter/pin_17.json
+/sensors2mqtt/settings.yaml

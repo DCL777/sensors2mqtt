@@ -28,5 +28,6 @@ sudo apt-get install python3-pip
 git clone https://github.com/DCL777/sensors2mqtt.git
 cd sensors2mqtt
 sudo pip3 install -r requirements.txt
+cd sensors2mqtt
 chmod 777 ./sensors2mqtt.py
 ./sensors2mqtt.py

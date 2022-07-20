@@ -21,8 +21,9 @@ import paho.mqtt.publish as publishpython
 import yaml
 import RPi.GPIO as GPIO
 
-from time import sleep, time
+from time import sleep, time, strftime
 from Sensor import Sensor
+
 
 class RPI_Generic_Ultrasonic(Sensor):
   def __init__(self, mqtt_client, sensorParameters,mqtt_top_dir_name):
@@ -64,9 +65,15 @@ class RPI_Generic_Ultrasonic(Sensor):
       GPIO.output(self.trigger_pin, GPIO.LOW)           # Set TRIG LOW
 
       # Measure return echo pulse duration
-      while GPIO.input(self.echo_pin) == GPIO.LOW:     # Wait until ECHO is LOW
+      waitTime=2 # timeout = 2 seconds
+      now=time()
+      pulse_start = 0
+      while (GPIO.input(self.echo_pin) == GPIO.LOW and time()-now<waitTime):     # Wait until ECHO is LOW
           pulse_start = time()                         # Save pulse start time
-      while GPIO.input(self.echo_pin) == GPIO.HIGH:    # Wait until ECHO is HIGH
+          
+      now=time()
+      pulse_end = 0
+      while (GPIO.input(self.echo_pin) == GPIO.HIGH and time()-now<waitTime):    # Wait until ECHO is HIGH
           pulse_end = time()                           # Save pulse end time
       pulse_duration = pulse_end - pulse_start 
       
@@ -76,14 +83,14 @@ class RPI_Generic_Ultrasonic(Sensor):
     
     pulse_duration_average = pulse_duration_total / self.sample_size
     # Distance = 34300/2 * Time (unit cm) at sea level and 20C
-    distance = (ulse_duration_average * self.scale_factor)         # Calculate distance:  34300/2
-    distance = round(distance, decimal_points)                    # Round to two decimal points
+    distance = (pulse_duration_average  * self.scale_factor)         # Calculate distance:  34300/2
+    distance = round(distance, self.decimal_points)                    # Round to two decimal points
 
-      if distance > self.output_value_min and distance < output_value_max:              # Check distance is in sensor range
-          distance = distance
-      else:
-          distance = 0
-      return distance
+    if distance > self.output_value_min and distance < self.output_value_max:              # Check distance is in sensor range
+        distance = distance
+    else:
+        distance = 0
+    return distance
 
 
   def send_value_over_mqtt(self): 

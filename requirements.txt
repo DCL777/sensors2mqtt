@@ -8,3 +8,4 @@ smbus2
 psutil
 plantower
 pycurl 
+distro

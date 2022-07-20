@@ -23,6 +23,7 @@ import logging
 import json
 import platform
 import psutil
+import distro
 
 import os.path
 from os import path
@@ -48,7 +49,9 @@ class LINUX_Generic_SystemInfo(Sensor):
 
  
     my_system = platform.uname() 
-    dist = platform.dist()
+  #  dist = platform.dist()  # platform.dist removed in Python 3.8
+  #  dist = distro.like()
+    dist = distro.linux_distribution()
     dist = " ".join(x for x in dist)
 
     if self.send_platform:

@@ -200,8 +200,8 @@ After=multi-user.target
 
 [Service]
 Type=idle
-WorkingDirectory=/home/pi/sensors2mqtt
-ExecStart=/usr/bin/python3 /home/pi/sensors2mqtt/sensors2mqtt.py -c settings.yaml
+WorkingDirectory=/home/pi/sensors2mqtt/sensors2mqtt
+ExecStart=/usr/bin/python3 /home/pi/sensors2mqtt/sensors2mqtt/sensors2mqtt.py -c settings.yaml
 
 [Install]
 WantedBy=multi-user.target
