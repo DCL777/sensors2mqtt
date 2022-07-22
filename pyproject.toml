@@ -1,4 +1,4 @@
-[project]
+[tool.poetry]
 name = "sensors2mqtt"
 version = "0.0.1"
 authors = [
@@ -8,14 +8,43 @@ description = "Universal Sensor data transporter over MQTT"
 readme = "README.md"
 license = { file="LICENSE" }
 requires-python = ">=3.7"
+Homepage = "https://github.com/DCL777/sensors2mqtt"
+Bug Tracker = "https://github.com/DCL777/sensors2mqtt/issues"
 classifiers = [
+    "Natural Language :: English",
     "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3",
     "License :: OSI Approved :: GNU General Public License v3.0",
     "Operating System :: POSIX :: Linux",
 	"Development Status :: 4 - Beta",
 
 ]
 
-[project.urls]
-"Homepage" = "https://github.com/DCL777/sensors2mqtt"
+
+[tool.poetry.dependencies]
+certifi = "^2022.6.15"
+python = "^3.7"
+idna = "^3.3"
+python-dateutil = "^2.8.2"
+paho-mqtt = "^1.6.1"
+urllib3  = "^1.26.10"
+pyyaml = "^6.0"
+smbus2 = "^0.4.2"
+psutil = "^5.9.1"
+plantower = "^0.0.11"
+pycurl = "^7.45.1"
+distro = "^1.7.0"
+
+[tool.poetry.dev-dependencies]
+
+
+[tool.poetry.urls]
 "Bug Tracker" = "https://github.com/DCL777/sensors2mqtt/issues"
+
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
