@@ -1,3 +1,13 @@
+[![GitHub Release][releases-shield]][releases]
+[![Python Versions][python-versions-shield]][pypi]
+![Project Stage][project-stage-shield]
+![Project Maintenance][maintenance-shield]
+[![License][license-shield]](LICENSE.md)
+
+[![Build Status][build-shield]][build]
+[![Code Coverage][codecov-shield]][codecov]
+[![Code Quality][code-quality-shield]][code-quality]
+
 # sensors2mqtt
 Universal Sensor data transporter over MQTT.  Sensor like water flow sensor (=pulse-counter), DS18B20 , INA219,...  
 
