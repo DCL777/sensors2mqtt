@@ -1,12 +1,8 @@
-[![GitHub Release][releases-shield]][releases]
-[![Python Versions][python-versions-shield]][pypi]
-![Project Stage][project-stage-shield]
-![Project Maintenance][maintenance-shield]
-[![License][license-shield]](LICENSE.md)
 
-[![Build Status][build-shield]][build]
-[![Code Coverage][codecov-shield]][codecov]
-[![Code Quality][code-quality-shield]][code-quality]
+[![GitHub issues](https://img.shields.io/github/issues/DCL777/sensors2mqtt)](https://github.com/DCL777/sensors2mqtt/issues)
+[![GitHub stars](https://img.shields.io/github/stars/DCL777/sensors2mqtt)](https://github.com/DCL777/sensors2mqtt/stargazers)
+[![GitHub license](https://img.shields.io/github/license/DCL777/sensors2mqtt)](https://github.com/DCL777/sensors2mqtt/blob/master/LICENSE)
+![GitHub top language](https://img.shields.io/github/languages/top/DCL777/sensors2mqtt)
 
 # sensors2mqtt
 Universal Sensor data transporter over MQTT.  Sensor like water flow sensor (=pulse-counter), DS18B20 , INA219,...  
