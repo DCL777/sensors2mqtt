@@ -2,11 +2,14 @@
 name = "sensors2mqtt"
 version = "0.0.1"
 authors = [
-  { name="Dries Claerbout", email="claerbout@hotmail.com" },
+  "Dries Claerbout <claerbout@hotmail.com>" ,
 ]
+homepage  = "https://github.com/DCL777/sensors2mqtt"
+repository   = "https://github.com/DCL777/sensors2mqtt"
 description = "Universal Sensor data transporter over MQTT"
+keywords = ["MQTT", "Sensors", "DS18B20", "INA219", "INA226", "PMS5003", "SystemInfo", "Dahua", "Pulse Counter", "Ultrasonic", "JSN-SR04T","JSN-SR04T-2.0","JSN-SR04T-3.0","HC-SR04","HY-SRF05"]
 readme = "README.md"
-license = { file="LICENSE" }
+license = "GPL-3.0-only"
 classifiers = [
     "Natural Language :: English",
     "Programming Language :: Python :: 3.7",
