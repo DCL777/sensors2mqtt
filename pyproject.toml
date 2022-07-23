@@ -7,9 +7,6 @@ authors = [
 description = "Universal Sensor data transporter over MQTT"
 readme = "README.md"
 license = { file="LICENSE" }
-requires-python = ">=3.7"
-Homepage = "https://github.com/DCL777/sensors2mqtt"
-Bug Tracker = "https://github.com/DCL777/sensors2mqtt/issues"
 classifiers = [
     "Natural Language :: English",
     "Programming Language :: Python :: 3.7",
@@ -43,6 +40,7 @@ distro = "^1.7.0"
 
 [tool.poetry.urls]
 "Bug Tracker" = "https://github.com/DCL777/sensors2mqtt/issues"
+Homepage = "https://github.com/DCL777/sensors2mqtt"
 
 
 [build-system]
