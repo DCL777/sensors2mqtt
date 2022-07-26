@@ -9,27 +9,31 @@ Universal Sensor data transporter over MQTT.  Sensor like water flow sensor (=pu
 
 For each sensor, an update can be choosen between:  10 (sec.) ,30,60, 300 (5min) , 900 (15min), 3600 (1h) , 10800 (3h), 21600 (6h) , 43200 (12h)
 
-Supported sensors at the moment:
-- Maximintegrated_DS18B20 temperature sensor
-- Generic_PulseCounter
+## Supported sensors:
+- **Maximintegrated_DS18B20** temperature sensor
+- **Generic_PulseCounter**
   - as a water-flow sensor
   - as gas meter counter
   - fully configurable for your application / sensor
-- TexasInstruments_INA219_4_20mA 
+- **TexasInstruments_INA219_4_20mA** 
   - as citern water height sensor. With a 'Submersible Water Level Transducer Sensor' 0-5m H2O  
   - fully configurable for your application
   - full range = 320mV, any current can be measured when the shunt resistor changes (not limited to 4-20mA)
-- TexasInstruments_INA226_4_20mA 
+- **TexasInstruments_INA226_4_20mA** 
   - as citern water height sensor. With a 'Submersible Water Level Transducer Sensor' 0-5m H2O  
   - fully configurable for your application
   - full range = 80mV, any current can be measured when the shunt resistor changes (not limited to 4-20mA)
-- Generic_SystemInfo
+- **Generic_SystemInfo**
   This sensor will send the following host system information:
    - Platform information (static)
    - CPU usage (dynamic)
    - Memory usage (dynamic)
    - Disk usage (dynamic) 
-- Plantower_PMS5003
+- **Generic_Ultrasonic**
+  - This is generic PING-MODE ultrasonic sensor.  This uses a 'Trigger' and 'Echo'-signal
+  - Supports averaging 
+  - Example Devices:  JSN-SR04T, JSN-SR04T-2.0, JSN-SR04T-3.0, HC-SR04, HY-SRF05, US-100, ...  
+- **Plantower_PMS5003**
   This is a Digital universal particle concentration sensor
   Measures: 
    - PM1.0, PM2.5 & PM10  value for CF=1，standard particle & under atmospheric environment
