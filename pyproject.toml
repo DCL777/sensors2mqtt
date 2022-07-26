@@ -35,6 +35,8 @@ pyyaml = "^6.0"
 smbus2 = "^0.4.2"
 psutil = "^5.9.1"
 plantower = "^0.0.11"
+setuptools = "^63.2.0"
+ez_setup = "^0.9"
 pycurl = "^7.45.1"
 distro = "^1.7.0"
 
