@@ -37,8 +37,10 @@ psutil = "^5.9.1"
 plantower = "^0.0.11"
 setuptools = "^63.2.0"
 ez_setup = "^0.9"
+libssl-dev = "^1.1.0"
 pycurl = "^7.45.1"
 distro = "^1.7.0"
+
 
 [tool.poetry.dev-dependencies]
 
