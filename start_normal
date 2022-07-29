@@ -1,0 +1,2 @@
+#! /bin/bash
+./sensors2mqtt/sensors2mqtt.py -c ./sensors2mqtt/settings.yaml -l info

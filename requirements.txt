@@ -8,6 +8,5 @@ smbus2
 psutil
 plantower
 setuptools
-ez_setup
 pycurl 
 distro
