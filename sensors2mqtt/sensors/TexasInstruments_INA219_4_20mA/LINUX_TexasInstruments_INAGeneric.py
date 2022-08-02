@@ -21,7 +21,7 @@ import logging
 from datetime import datetime
 from abc import abstractmethod
 
-#from smbus2 import SMBus, i2c_msg  # https://pypi.org/project/smbus2/
+from smbus2 import SMBus, i2c_msg  # https://pypi.org/project/smbus2/
 
 # search for i2c bus:  ls /dev/*i2c*   => /dev/i2c-1  => bus 1
 # show devices: i2cdetect -y 1
