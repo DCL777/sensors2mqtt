@@ -20,6 +20,7 @@ import logging
 import os.path
 # from os import path
 
+from abc import abstractmethod
 
 class BColors:
     """CLI colors"""
@@ -73,14 +74,16 @@ class Sensor:
     def is_configured(self):
         """ is configured? """
         return bool(self.parameters)
-
+        
+    @abstractmethod
     def send_value_over_mqtt(self, mqtt_top_dir_name):
         """ send the actual sensor value over MQTT"""
- #       pass
-
+ #      pass
+        
+    @abstractmethod
     def on_exit(self):
         """ Do this on exit """
-#        pass
+ #       pass
 
     def get_update_interval(self):
         """ Get the wanted update interval for this sensor """

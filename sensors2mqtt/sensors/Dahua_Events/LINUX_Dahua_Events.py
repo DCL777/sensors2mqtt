@@ -38,7 +38,7 @@ from datetime import datetime
 URL_TEMPLATE = "http://{host}:{port}/cgi-bin/eventManager.cgi?action=attach&codes=%5B{events}%5D"
 
 
-class LINUX_Generic_DahuaEvents(Sensor):
+class LINUX_Dahua_Events(Sensor):
     """Dahua Events"""
     proc = None
     cameras = []
@@ -47,7 +47,7 @@ class LINUX_Generic_DahuaEvents(Sensor):
     kill_thread = False
 
     def __init__(self, mqtt_client, sensor_parameters, mqtt_top_dir_name):
-        super().__init__("LINUX", "Generic", "DahuaEvents", "DahuaEvents",
+        super().__init__("LINUX", "Dahua", "Events", "Dahua Events",
                          "Dahua Events", mqtt_client, sensor_parameters)
 
         self.mqtt_top_dir_name = mqtt_top_dir_name
