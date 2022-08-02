@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-
+'''LINUX_Plantower_PMS5003'''
 #  This file is part of the sensors2mqtt distribution (https://github.com/DCL777/sensors2mqtt.git).
 #  Copyright (c) 2021 Dries Claerbout
 #
@@ -16,22 +16,21 @@
 #  along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-import logging
-import time
+#import logging
 import json
-import plantower
 
 from datetime import datetime
 from Sensor import Sensor
 
+import plantower
 
 # https://github.com/FEEprojects/plantower/blob/master/plantower/plantower.py
 
 class LINUX_Plantower_PMS5003(Sensor):
-
+    '''LINUX_Plantower_PMS5003'''
     def __init__(self, mqtt_client, aSensor, mqtt_top_dir_name):
         super().__init__("LINUX", "Sciosense", "CCS811",
-                         "TVOC & CO2", "I2C", mqtt_client, aSensor)
+                         "TVOC & CO2", "I2C", mqtt_client, aSensor,mqtt_top_dir_name)
 
         self.mqtt_top_dir_name = mqtt_top_dir_name
         self.mqtt_sub_dir = aSensor['mqtt_sub_dir']

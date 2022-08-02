@@ -59,7 +59,7 @@ Sensors:
               # Built-in (standard) Serial Port: the Linux standard is /dev/ttyS0, /dev/ttyS1, and so on
               # USB Serial Port Adapter: /dev/ttyUSB0, /dev/ttyUSB1, and so on.
               # Some types of USB serial adapter may appear as /dev/ttyACM0 
-  Generic_DahuaEvents:
+  Dahua_Events:
   - platform: LINUX
     mqtt_sub_dir: nvr  # used for the MQTT sub-directory
     update_interval: 3000 # not used at the moment 

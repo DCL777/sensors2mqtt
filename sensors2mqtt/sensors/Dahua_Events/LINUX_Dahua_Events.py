@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-
+"""Dahua Events"""
 #  This file is part of the sensors2mqtt distribution (https://github.com/DCL777/sensors2mqtt.git).
 #  Copyright (c) 2020 Dries Claerbout
 #
@@ -16,9 +16,9 @@
 #  along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-from cgi import print_form
-import paho.mqtt.client as mqtt
-import paho.mqtt.publish as publishpython
+#from cgi import print_form
+#import paho.mqtt.client as mqtt
+#import paho.mqtt.publish as publishpython
 #import yaml
 import logging
 import json
@@ -26,19 +26,18 @@ import json
 #import psutil
 import time
 #import threading
-import pycurl
 from threading import Thread
+from datetime import datetime
 
-#import os.path
-#from os import path
+import pycurl
 
 from Sensor import Sensor
-from datetime import datetime
+
 
 URL_TEMPLATE = "http://{host}:{port}/cgi-bin/eventManager.cgi?action=attach&codes=%5B{events}%5D"
 
 
-class LINUX_Generic_DahuaEvents(Sensor):
+class LINUX_Dahua_Events(Sensor):
     """Dahua Events"""
     proc = None
     cameras = []
@@ -47,7 +46,7 @@ class LINUX_Generic_DahuaEvents(Sensor):
     kill_thread = False
 
     def __init__(self, mqtt_client, sensor_parameters, mqtt_top_dir_name):
-        super().__init__("LINUX", "Generic", "DahuaEvents", "DahuaEvents",
+        super().__init__("LINUX", "Dahua", "Events", "Dahua Events",
                          "Dahua Events", mqtt_client, sensor_parameters)
 
         self.mqtt_top_dir_name = mqtt_top_dir_name
@@ -159,7 +158,7 @@ class LINUX_Generic_DahuaEvents(Sensor):
 
     def send_value_over_mqtt(self):
         """Send the actual value over mqtt"""
-        None
+    #    None
 
     def on_exit(self):
         """ Do this on exit """

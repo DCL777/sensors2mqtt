@@ -4,7 +4,7 @@ mqtt:
   password: [YOUR PASSWORD HERE]
   top_dir_name: cameras  # used as MQTT top directory
 Sensors:
-  Generic_DahuaEvents:
+  LINUX_Dahua_Events:
   - platform: LINUX
     mqtt_sub_dir: null  # null is not used otherwise used for the MQTT sub-directory
     update_interval: 3000 # not used at the moment 

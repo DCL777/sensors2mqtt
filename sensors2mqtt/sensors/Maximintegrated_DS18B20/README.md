@@ -28,7 +28,7 @@ Update your sensors section in configuration.yml with the new mqtt topics, for e
 ``` 
 
 # Hardware setup:
-![screenshot](../../docs/images/hw.png?raw=true)
+![screenshot](../../../docs/images/hw.png?raw=true)
 
 some hardware comments:
 - The 1-wire bus needs a pull up resistor of 4k7

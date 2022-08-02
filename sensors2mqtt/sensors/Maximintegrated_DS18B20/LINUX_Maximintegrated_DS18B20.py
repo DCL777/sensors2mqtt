@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-
+'''LINUX_Maximintegrated_DS18B20'''
 #  This file is part of the sensors2mqtt distribution (https://github.com/DCL777/sensors2mqtt.git).
 #  Copyright (c) 2020 Dries Claerbout
 #
@@ -16,13 +16,13 @@
 #  along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-import logging
+#import logging
 
 from Sensor import Sensor
 
 
 class LINUX_Maximintegrated_DS18B20(Sensor):
-
+    """LINUX_Maximintegrated_DS18B20"""
     def __init__(self, mqtt_client, config, mqtt_top_dir_name):
         super().__init__("LINUX", "Maximintegrated", "DS18B20",
                          "Temperature", "1-Wire", mqtt_client, config)
