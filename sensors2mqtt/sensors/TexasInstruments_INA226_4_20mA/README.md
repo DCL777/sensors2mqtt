@@ -17,7 +17,7 @@ interface: I2C
 # Application 1: Measure Citern water height with: Submersible Water Level Transducer Sensor 0-5m H2O
 
 ## Hardware setup:
-![screenshot](../../docs/images/hw.png?raw=true)
+![screenshot](../../../docs/images/hw.png?raw=true)
 
 some hardware comments:
 - The I2C-bus needs a pull up resistor of 2k2 (10k in some cases). Check your boards if it's installed.
