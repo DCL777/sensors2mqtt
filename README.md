@@ -63,10 +63,14 @@ For each sensor, an update can be choosen between:  10 (sec.) ,30,60, 300 (5min)
 
 
 # Config your sensors & MQTT broker info
+- in directory ```~/sensors2mqtt/sensors2mqtt```
 - copy sensors_settings.yaml to the same directory with a differend name: example: ```settings.yaml```
 - Add or remove sensors in the new file.  Only sensors define here will be loaded at runtime
 - Start with argument: -c option: ```./sensors2mqtt.py -c settings.yaml```
 - Start with argument: -l option: ```./sensors2mqtt.py -c settings.yaml -l debug``` to get debug loggings
+- To simplify starting:  go to ```~/sensors2mqtt``` 
+  - and run: ```start_normal``` to have normal CLI output
+  - and run: ```start_debug``` to have extra info in the CLI output 
 
 
 # Setup
