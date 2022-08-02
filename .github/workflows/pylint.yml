@@ -26,4 +26,4 @@ jobs:
     - name: Analysing the code with pylint
       run: |
         # pylint $(git ls-files '*.py')
-        pylint --disable=C0301,C0103,R0902 --extension-pkg-whitelist=pycurl $(git ls-files '*.py')
+        pylint --disable=C0301,C0103,R0902 --extension-pkg-whitelist=pycurl --rcfile ~/. $(git ls-files '*.py')
