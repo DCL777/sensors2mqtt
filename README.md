@@ -108,8 +108,10 @@ or execute the commands manually:
 => sudo apt-get install python3-pip
 => git clone https://github.com/DCL777/sensors2mqtt.git
 => cd sensors2mqtt
+=> chmod +x ./start_normal
+=> chmod +x ./start_normal
 => sudo pip3 install -r requirements.txt
-=> chmod 777 ./sensors2mqtt/sensors2mqtt.py
+=> chmod +x ./sensors2mqtt/sensors2mqtt.py
 => ./start_normal
 ```
 
