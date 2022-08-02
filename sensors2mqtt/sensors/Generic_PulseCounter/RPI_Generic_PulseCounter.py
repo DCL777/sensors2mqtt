@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-
+'''RPI_Generic_PulseCounter'''
 #  This file is part of the sensors2mqtt distribution (https://github.com/DCL777/sensors2mqtt.git).
 #  Copyright (c) 2020 Dries Claerbout
 #
@@ -16,22 +16,26 @@
 #  along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-import paho.mqtt.client as mqtt
-import paho.mqtt.publish as publishpython
-import yaml
-import RPi.GPIO as GPIO
+#import paho.mqtt.client as mqtt
+#import paho.mqtt.publish as publishpython
+#import yaml
+
 import logging
 import json
 
+from datetime import datetime
 
 import os.path
 from os import path
 
+import RPi.GPIO as GPIO
+
 from Sensor import Sensor
-from datetime import datetime
 
 
 class RPI_Generic_PulseCounter(Sensor):
+    '''RPI_Generic_PulseCounter'''
+
     def __init__(self, mqtt_client, sensor_parameters, mqtt_top_dir_name):
         """INIT"""
         super().__init__("RPI", "Generic", "PulseCounter",
@@ -68,7 +72,7 @@ class RPI_Generic_PulseCounter(Sensor):
             self.read_from_file()
         else:  # initialize when no file was found to int(0)
             self.dict_data = dict(delta=f"0", total=f"0",
-                                 day="0", week="0", month="0", year="0")
+                                  day="0", week="0", month="0", year="0")
             self.total_d1 = 0
             self.save_to_file()
 

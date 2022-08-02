@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-
+'''Sensor super class'''
 #  This file is part of the sensors2mqtt distribution (https://github.com/DCL777/sensors2mqtt.git).
 #  Copyright (c) 2020 Dries Claerbout
 
@@ -21,6 +21,7 @@ import os.path
 # from os import path
 
 from abc import abstractmethod
+
 
 class BColors:
     """CLI colors"""
@@ -74,12 +75,12 @@ class Sensor:
     def is_configured(self):
         """ is configured? """
         return bool(self.parameters)
-        
+
     @abstractmethod
     def send_value_over_mqtt(self, mqtt_top_dir_name):
         """ send the actual sensor value over MQTT"""
  #      pass
-        
+
     @abstractmethod
     def on_exit(self):
         """ Do this on exit """

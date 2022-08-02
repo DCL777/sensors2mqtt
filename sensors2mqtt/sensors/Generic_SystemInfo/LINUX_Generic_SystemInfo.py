@@ -1,5 +1,5 @@
-#!/usr/bin/python3
-
+#!/usr/bin/python
+"""LINUX Generic SystemInfo"""
 #  This file is part of the sensors2mqtt distribution (https://github.com/DCL777/sensors2mqtt.git).
 #  Copyright (c) 2020 Dries Claerbout
 #
@@ -22,18 +22,20 @@
 import logging
 import json
 import platform
-import psutil
-import distro
 
 #import os.path
 from os import path
+from datetime import datetime
+
+import psutil
+import distro
 
 from Sensor import Sensor
-from datetime import datetime
 
 
 class LINUX_Generic_SystemInfo(Sensor):
     """LINUX Generic SystemInfo"""
+
     def __init__(self, mqtt_client, sensor_parameters, mqtt_top_dir_name):
         super().__init__("LINUX", "Generic", "SystemInfo", "SystemInfo",
                          "System Information", mqtt_client, sensor_parameters)
@@ -63,7 +65,8 @@ class LINUX_Generic_SystemInfo(Sensor):
             self.dict_data_static['Version'] = my_system.version
             self.dict_data_static['Machine'] = my_system.machine
             self.dict_data_static['Architecture'] = platform.architecture()[0]
-            self.dict_data_static['CPU_Cores'] = psutil.cpu_count(logical=False)
+            self.dict_data_static['CPU_Cores'] = psutil.cpu_count(
+                logical=False)
             self.dict_data_static['Distribution'] = dist
             self.dict_data_static['Python_Version'] = platform.python_version()
             self.dict_data_static['Node_Name'] = my_system.node
